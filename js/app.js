@@ -181,7 +181,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const topCaptions = [
             "It's your birthday ✨",
             "My Sweet Girl 💖",
-            "Happy 24.09 🌸",
+            "Happy 23.09 🌸",
             "Love You Most ❤️"
         ];
         const bottomCaptions = [
