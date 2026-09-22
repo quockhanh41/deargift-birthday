@@ -27,7 +27,7 @@ const BIRTHDAY_CONFIG = {
         title: "Happy Birthday My Love! 🎂",
         subtitle: "Tuổi mới luôn rạng rỡ, xinh đẹp và hạnh phúc em nhé!",
         topImage: "assets/images/portrait.jpeg", // Ảnh chân dung thật của người yêu trên đỉnh bánh
-        instruction: "Hãy nhắm mắt lại 3 giây, ước một điều ước thật đẹp rồi nhấn 'Thổi Nến' nha! ✨",
+        instruction: "Hãy nhắm mắt lại 3 giây, ước một điều ước thật đẹp rồi nhấn hoặc thổi nến nha! ✨",
         blowButtonText: "Thổi nến sinh nhật 🕯️",
         wishGrantedTitle: "🎉 Chúc Mừng Sinh Nhật Em! 🎉",
         wishGrantedSubtitle: "Mọi điều ước của em chắc chắn sẽ trở thành hiện thực!",
@@ -61,7 +61,7 @@ const BIRTHDAY_CONFIG = {
         },
         {
             id: 2,
-            image: "assets/images/photo-2.jpeg",
+            image: "assets/images/memories/mem2.jpeg",
             date: "Những ngày bên nhau",
             title: "Bình yên bên em 🌸",
             caption: "Chỉ cần ở cạnh em, mọi khoảnh khắc đều trở nên dịu dàng.",
@@ -69,7 +69,7 @@ const BIRTHDAY_CONFIG = {
         },
         {
             id: 3,
-            image: "assets/images/photo-3.jpeg",
+            image: "assets/images/memories/mem3.jpeg",
             date: "Kỷ niệm ngọt ngào",
             title: "Ánh mắt biết cười 💕",
             caption: "Ánh mắt ấy chính là nơi anh muốn ngắm nhìn mãi mãi.",
@@ -77,11 +77,83 @@ const BIRTHDAY_CONFIG = {
         },
         {
             id: 4,
-            image: "assets/images/photo-4.jpeg",
+            image: "assets/images/photo-1.jpeg",
             date: "Hẹn hò lãng mạn",
             title: "Cùng em đi muôn nơi 🌅",
             caption: "Nắm tay em đi qua từng góc phố thân quen.",
             secretNote: "Chỉ cần là đi cùng em, bất cứ nơi đâu cũng hóa thành thiên đường hạnh phúc."
+        },
+        {
+            id: 5,
+            image: "assets/images/photo-2.jpeg",
+            date: "Khoảnh khắc yêu thương",
+            title: "Em là tất cả 💖",
+            caption: "Hạnh phúc đơn giản là mỗi ngày đều có em kề bên.",
+            secretNote: "Cảm ơn em vì đã đến và trở thành điều tuyệt vời nhất trong cuộc đời anh!"
+        },
+        {
+            id: 6,
+            image: "assets/images/photo-3.jpeg",
+            date: "Hạnh phúc giản đơn",
+            title: "Công chúa nhỏ của anh 👑",
+            caption: "Mãi là cô bé đáng yêu và được anh chiều chuộng nhất nhé!",
+            secretNote: "Dù em có lớn bao nhiêu, trong mắt anh em vẫn luôn là công chúa nhỏ cần được che chở."
+        },
+        {
+            id: 7,
+            image: "assets/images/photo-4.jpeg",
+            date: "Từng ngày qua",
+            title: "Ngọt ngào như kẹo 🍰",
+            caption: "Tình yêu của chúng mình ngày càng thêm đượm nồng.",
+            secretNote: "Mỗi ngày trôi qua anh lại thấy yêu em nhiều hơn ngày hôm qua một chút!"
+        },
+        {
+            id: 8,
+            image: "assets/images/photo-5.jpeg",
+            date: "Những chiều bình yên",
+            title: "Nơi ấm áp nhất ☕",
+            caption: "Những phút giây êm đềm bên ly trà và câu chuyện nhỏ.",
+            secretNote: "Bên em lúc nào cũng thật thoải mái, được là chính mình trọn vẹn nhất."
+        },
+        {
+            id: 9,
+            image: "assets/images/photo-6.jpeg",
+            date: "Chỗ dựa vững chãi",
+            title: "Luôn có anh ở đây 🛡️",
+            caption: "Anh sẽ luôn là chỗ dựa vững chãi nhất cho em.",
+            secretNote: "Bất kể ngoài kia có ra sao, quay đầu lại em sẽ luôn thấy anh đứng đợi."
+        },
+        {
+            id: 10,
+            image: "assets/images/photo-7.jpeg",
+            date: "Trân quý từng giây",
+            title: "Khoảnh khắc kỳ diệu ✨",
+            caption: "Từng nụ cười, từng ánh nhìn đều là vô giá.",
+            secretNote: "Mỗi giây phút bên em đều là một trang ký ức mà anh muốn lưu giữ suốt đời."
+        },
+        {
+            id: 11,
+            image: "assets/images/photo-8.jpeg",
+            date: "Ngày đặc biệt hôm nay",
+            title: "Happy Birthday Em Yêu! 🎂",
+            caption: "Chúc cho mọi ước mơ của em đều sẽ trở thành hiện thực.",
+            secretNote: "Anh sẽ luôn ở đây, đồng hành và cùng em biến mọi ước mơ thành sự thật! Mãi bên em ❤️"
+        },
+        {
+            id: 12,
+            image: "assets/images/photo-9.jpeg",
+            date: "Tình yêu ngọt ngào",
+            title: "Nụ cười của em 💖",
+            caption: "Nụ cười làm tan chảy trái tim anh mỗi ngày.",
+            secretNote: "Chỉ cần nhìn thấy nụ cười của em là anh có thêm triệu động lực để cố gắng mỗi ngày!"
+        },
+        {
+            id: 13,
+            image: "assets/images/photo-10.jpeg",
+            date: "Kỷ niệm khó quên",
+            title: "Mãi bên nhau nhé 💍",
+            caption: "Bên nhau trọn đời, cùng nhau già đi.",
+            secretNote: "Cảm ơn em vì đã là người yêu tuyệt vời nhất của anh. Chúc mừng sinh nhật Yến Ngân! ❤️"
         }
     ],
 
