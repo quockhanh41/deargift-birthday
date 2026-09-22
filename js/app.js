@@ -319,6 +319,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
+            // Tạm dừng nhạc nền để micro không bị nhiễu và tạo không gian yên tĩnh thổi nến
+            if (window.romanticAudio) {
+                window.romanticAudio.pauseMusic();
+            }
+
             blowDetector = new window.MicBlowDetector({
                 threshold: 28,
                 onIntensity: (intensity) => {
@@ -344,6 +349,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (btnEnableMic) btnEnableMic.style.display = "none";
                 if (micActiveBox) micActiveBox.style.display = "flex";
             } else {
+                // Khôi phục phát nhạc nếu không mở được mic
+                if (window.romanticAudio) {
+                    window.romanticAudio.startMusic();
+                }
                 if (btnEnableMic) {
                     if (result && result.reason === "insecure") {
                         btnEnableMic.innerHTML = "<span>🔒 Cần mở qua link HTTPS để dùng Mic</span>";
@@ -397,10 +406,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 candleWrapper.appendChild(smoke);
             }
 
-            // Sau 0.6s bắn pháo hoa ăn mừng và hiện banner chúc mừng
+            // Sau 0.6s bắn pháo hoa ăn mừng, hiện banner và phát lại nhạc nền rực rỡ
             setTimeout(() => {
                 window.romanticAudio.playCelebrationChime();
                 window.romanticEffects.launchFireworks(4500);
+
+                // Bật lại nhạc nền ăn mừng sau khi đã thổi tắt nến thành công
+                if (window.romanticAudio) {
+                    window.romanticAudio.startMusic();
+                }
 
                 if (wishBanner) {
                     wishBanner.style.display = "flex";
