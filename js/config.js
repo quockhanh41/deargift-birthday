@@ -26,7 +26,20 @@ const BIRTHDAY_CONFIG = {
     cake: {
         title: "Happy Birthday My Love! 🎂",
         subtitle: "Tuổi mới luôn rạng rỡ, xinh đẹp và hạnh phúc em nhé!",
-        topImage: "assets/images/portrait.jpeg", // Ảnh chân dung thật của người yêu trên đỉnh bánh
+        topImage: "assets/images/portrait.jpeg", // Ảnh chân dung tròn trên đỉnh bánh
+        // 10 ảnh photo-1 đến photo-10 hiển thị riêng biệt vòng quanh 2 tầng bánh sinh nhật:
+        photos: [
+            "assets/images/photo-1.jpeg",
+            "assets/images/photo-2.jpeg",
+            "assets/images/photo-3.jpeg",
+            "assets/images/photo-4.jpeg",
+            "assets/images/photo-5.jpeg",
+            "assets/images/photo-6.jpeg",
+            "assets/images/photo-7.jpeg",
+            "assets/images/photo-8.jpeg",
+            "assets/images/photo-9.jpeg",
+            "assets/images/photo-10.jpeg"
+        ],
         instruction: "Hãy nhắm mắt lại 3 giây, ước một điều ước thật đẹp rồi nhấn hoặc thổi nến nha! ✨",
         blowButtonText: "Thổi nến sinh nhật 🕯️",
         wishGrantedTitle: "🎉 Chúc Mừng Sinh Nhật Em! 🎉",

@@ -161,10 +161,9 @@ document.addEventListener("DOMContentLoaded", () => {
             topImgEl.src = config.cake.topImage;
         }
 
-        // 10 ảnh kỷ niệm thật đọc từ config.polaroids (hoàn toàn không trùng lặp bất kỳ ảnh nào):
-        // Tầng trên dùng 4 ảnh đầu, Tầng dưới dùng 6 ảnh còn lại
-        const memoryImgs = (config.polaroids && config.polaroids.length > 0)
-            ? config.polaroids.map(p => p.image)
+        // Bánh sinh nhật CHỈ hiển thị duy nhất 10 ảnh photo-1 đến photo-10 và portrait.jpeg trên đỉnh bánh
+        const cakePhotos = (config.cake && Array.isArray(config.cake.photos) && config.cake.photos.length > 0)
+            ? config.cake.photos
             : [
                 "assets/images/photo-1.jpeg",
                 "assets/images/photo-2.jpeg",
@@ -177,6 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 "assets/images/photo-9.jpeg",
                 "assets/images/photo-10.jpeg"
             ];
+        const memoryImgs = cakePhotos;
 
         const topCaptions = [
             "It's your birthday ✨",
