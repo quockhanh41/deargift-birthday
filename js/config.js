@@ -52,11 +52,11 @@ const BIRTHDAY_CONFIG = {
         stamp: "23.09 Special Delivery",
         title: "Gửi người con gái anh yêu thương nhất,",
         paragraphs: [
-            "Hôm nay là một ngày vô cùng đặc biệt — ngày mà thế giới này đón chào một thiên thần nhỏ đáng yêu và dịu dàng, chính là em.",
-            "Cảm ơn em đã xuất hiện và mang đến cho cuộc sống của anh thật nhiều nụ cười, sự ấm áp và những khoảnh khắc ngọt ngào không gì sánh bằng.",
-            "Bước sang tuổi mới, anh chúc cho công chúa của anh luôn luôn xinh đẹp, ngập tràn niềm vui, công việc thuận lợi và lúc nào cũng được yêu thương trọn vẹn nhất.",
-            "Dù sau này cuộc sống có trải qua bao nhiêu mùa sinh nhật nữa, anh vẫn muốn là người đầu tiên thắp nến và nắm chặt tay em bước qua từng năm tháng bình yên.",
-            "Chúc mừng sinh nhật em yêu! Yêu em nhiều hơn tất cả những gì anh có thể diễn tả thành lời."
+            "Chúc mừng sinh nhật Yến Ngân của anh!",
+            "Nhiều lúc ngồi nghĩ lại, anh thấy may mắn thật sự vì ngày hôm đó Sinh học tế bào đã cho anh được gặp em.",
+            "Cảm ơn em vì đã luôn ở bên cạnh anh, cùng anh chia sẻ đủ thứ chuyện trên đời, từ những buổi học bài căng thẳng cho tới những cuộc gọi video call không biết chán mỗi tối.",
+            "Tuổi mới, anh mong em luôn vui vẻ, học thật tốt, bớt lo âu suy nghĩ và lúc nào cũng cảm thấy bình yên khi ở cạnh anh.",
+            "Sinh nhật năm nay, năm sau và thật nhiều năm về sau nữa, anh vẫn muốn là người cùng em thổi nến. Yêu em rất nhiều!"
         ],
         ending: "Mãi yêu em ❤️",
         nextButtonText: "Xem lại những kỷ niệm của chúng mình 📸"

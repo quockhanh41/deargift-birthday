@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const totalScenes = 5;
     let letterTypewriter = null;
     let candleBlown = false;
+    let giftOpened = false;
 
     // 3. Render dữ liệu từ config.js vào giao diện
     populateContent(config);
@@ -111,10 +112,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!giftBox) return;
 
-        let opened = false;
         const triggerOpen = () => {
-            if (opened) return;
-            opened = true;
+            if (giftOpened) return;
+            giftOpened = true;
 
             // Âm thanh và nhạc nền
             window.romanticAudio.playGiftPop();
@@ -559,19 +559,70 @@ document.addEventListener("DOMContentLoaded", () => {
         const btnReplay = document.getElementById("btn-replay-all");
         if (btnReplay) {
             btnReplay.addEventListener("click", () => {
-                // Đặt lại nến
-                candleBlown = false;
-                const flame = document.getElementById("candle-flame");
-                if (flame) flame.classList.remove("flame-extinguished");
-                const blowBtn = document.getElementById("btn-blow-candle");
-                if (blowBtn) blowBtn.style.display = "inline-flex";
-                const wishBanner = document.getElementById("wish-granted-banner");
-                if (wishBanner) wishBanner.style.display = "none";
-
-                // Về màn 1
-                goToScene(1);
+                resetAllExperience();
             });
         }
+    }
+
+    /**
+     * ĐẶT LẠI TOÀN BỘ TRẢI NGHIỆM ĐỂ XEM LẠI TỪ ĐẦU
+     */
+    function resetAllExperience() {
+        // 1. Reset Màn 1: Hộp quà
+        giftOpened = false;
+        const giftLid = document.getElementById("gift-lid");
+        const giftBody = document.getElementById("gift-body");
+        if (giftLid) giftLid.classList.remove("lid-opening");
+        if (giftBody) giftBody.classList.remove("gift-opened");
+
+        // 2. Reset Màn 2: Bánh kem, ngọn nến & khu vực Mic
+        candleBlown = false;
+        const flame = document.getElementById("candle-flame");
+        if (flame) flame.classList.remove("flame-extinguished");
+        document.querySelectorAll(".smoke-puff").forEach(s => s.remove());
+
+        const micBlowZone = document.getElementById("mic-blow-zone");
+        if (micBlowZone) micBlowZone.style.display = "block";
+
+        const btnEnableMic = document.getElementById("btn-enable-mic");
+        if (btnEnableMic) {
+            btnEnableMic.style.display = "inline-flex";
+            btnEnableMic.innerHTML = `<span class="mic-pulse-icon">🎙️</span><span>Bật Micro để thổi nến thật 💨</span>`;
+        }
+
+        const micActiveBox = document.getElementById("mic-active-box");
+        if (micActiveBox) micActiveBox.style.display = "none";
+
+        const blowMeterFill = document.getElementById("blow-meter-fill");
+        if (blowMeterFill) blowMeterFill.style.width = "0%";
+
+        const candleFallbackZone = document.getElementById("candle-fallback-zone");
+        if (candleFallbackZone) candleFallbackZone.style.display = "block";
+
+        const blowBtn = document.getElementById("btn-blow-candle");
+        if (blowBtn) blowBtn.style.display = "inline-flex";
+
+        const wishBanner = document.getElementById("wish-granted-banner");
+        if (wishBanner) wishBanner.style.display = "none";
+
+        // 3. Reset Màn 3: Bức thư tình gõ chữ
+        const btnToPolaroid = document.getElementById("btn-to-polaroid");
+        if (btnToPolaroid) btnToPolaroid.style.display = "none";
+
+        const btnSkipLetter = document.getElementById("btn-skip-letter");
+        if (btnSkipLetter) btnSkipLetter.style.display = "inline-flex";
+
+        const letterContent = document.getElementById("letter-content");
+        if (letterContent) letterContent.innerHTML = "";
+
+        const letterCursor = document.getElementById("letter-cursor");
+        if (letterCursor) letterCursor.style.display = "inline-block";
+
+        // 4. Reset Màn 4: Thẻ Polaroid lật lại mặt trước
+        document.querySelectorAll(".polaroid-card").forEach(c => c.classList.remove("is-flipped"));
+
+        // 5. Quay về màn 1 và cuộn lên đầu trang
+        goToScene(1);
     }
 
     /**
