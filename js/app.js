@@ -657,15 +657,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!modal || !videoPlayer) return;
 
+        let wasPlayingBeforeVideo = false;
+
         window.openVideoModal = (videoSrc, title, caption) => {
             if (videoSource) videoSource.src = videoSrc;
             videoPlayer.load();
             if (titleEl && title) titleEl.textContent = title;
             if (captionEl && caption) captionEl.textContent = `"${caption}" 💖`;
 
-            // Tạm dừng nhạc nền để người yêu nghe rõ âm thanh trong video
-            if (window.romanticAudio && window.romanticAudio.bgmAudio) {
-                try { window.romanticAudio.bgmAudio.pause(); } catch (e) {}
+            // Ghi nhớ trạng thái nhạc đang phát và tạm dừng nhạc nền ngay lập tức (cả trên PC và Mobile)
+            wasPlayingBeforeVideo = Boolean(window.romanticAudio && window.romanticAudio.isPlaying);
+            if (window.romanticAudio) {
+                window.romanticAudio.pauseMusic();
             }
 
             modal.classList.add("active");
@@ -682,9 +685,9 @@ document.addEventListener("DOMContentLoaded", () => {
             videoPlayer.pause();
             videoPlayer.currentTime = 0;
 
-            // Tiếp tục phát nhạc nền nếu nhạc đang trong trạng thái bật
-            if (window.romanticAudio && window.romanticAudio.isPlaying && window.romanticAudio.bgmAudio) {
-                try { window.romanticAudio.bgmAudio.play(); } catch (e) {}
+            // Bật lại nhạc nền ngay lập tức sau khi tắt video (nếu trước đó nhạc đang bật)
+            if (wasPlayingBeforeVideo && window.romanticAudio) {
+                window.romanticAudio.startMusic();
             }
         };
 
