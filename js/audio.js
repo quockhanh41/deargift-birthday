@@ -374,29 +374,63 @@ class MicBlowDetector {
         this.isListening = false;
         this.animationId = null;
         this.sustainedCount = 0;
-        this.threshold = options.threshold || 36; // Ngưỡng nhận diện tiếng thổi phùùù
+        this.threshold = options.threshold || 30; // Ngưỡng nhận diện tiếng thổi
+        this.ambient = 15; // Nền âm thanh động
     }
 
     async start() {
-        if (this.isListening) return true;
+        if (this.isListening) return { success: true };
+
+        // 1. Kiểm tra môi trường bảo mật (HTTPS)
+        if (!window.isSecureContext && location.hostname !== "localhost" && location.hostname !== "127.0.0.1") {
+            console.warn("getUserMedia yêu cầu kết nối HTTPS bảo mật trên thiết bị di động.");
+            return {
+                success: false,
+                reason: "insecure",
+                message: "Trình duyệt điện thoại bắt buộc kết nối HTTPS bảo mật để mở Micro."
+            };
+        }
+
+        // 2. Kiểm tra API mediaDevices
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+            console.warn("Trình duyệt không hỗ trợ navigator.mediaDevices.getUserMedia.");
+            return {
+                success: false,
+                reason: "unsupported",
+                message: "Trình duyệt này không hỗ trợ truy cập Micro trực tiếp."
+            };
+        }
+
         try {
-            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-                console.warn("Trình duyệt không hỗ trợ getUserMedia.");
-                return false;
+            // 3. Khởi tạo AudioContext NGAY TRONG LƯỢT GESTURE (quan trọng đặc biệt cho iOS Safari)
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            if (!this.audioCtx) {
+                this.audioCtx = new AudioContext();
+            }
+            if (this.audioCtx.state === "suspended") {
+                try {
+                    await this.audioCtx.resume();
+                } catch (e) {}
             }
 
-            this.micStream = await navigator.mediaDevices.getUserMedia({
-                audio: {
-                    echoCancellation: false,
-                    noiseSuppression: false,
-                    autoGainControl: false
-                }
-            });
+            // 4. Lấy stream microphone với fallback cho mobile
+            try {
+                this.micStream = await navigator.mediaDevices.getUserMedia({
+                    audio: {
+                        echoCancellation: false,
+                        noiseSuppression: false,
+                        autoGainControl: false
+                    }
+                });
+            } catch (err) {
+                console.warn("Thử lại getUserMedia với cấu hình cơ bản cho mobile:", err);
+                this.micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            }
 
-            const AudioContext = window.AudioContext || window.webkitAudioContext;
-            this.audioCtx = new AudioContext();
             if (this.audioCtx.state === "suspended") {
-                await this.audioCtx.resume();
+                try {
+                    await this.audioCtx.resume();
+                } catch (e) {}
             }
 
             const source = this.audioCtx.createMediaStreamSource(this.micStream);
@@ -406,12 +440,22 @@ class MicBlowDetector {
             source.connect(this.analyser);
 
             this.isListening = true;
+            this.ambient = 15;
             this.listenLoop();
-            return true;
+            return { success: true };
         } catch (err) {
-            console.warn("Không thể mở micro:", err);
+            console.error("Lỗi khi mở micro:", err);
             this.isListening = false;
-            return false;
+            let reason = "denied";
+            let msg = "Micro bị từ chối hoặc không khả dụng.";
+            if (err.name === "NotAllowedError" || err.name === "PermissionDeniedError") {
+                reason = "denied";
+                msg = "Bạn đã từ chối quyền Micro. Hãy cho phép trong cài đặt trình duyệt.";
+            } else if (err.name === "NotFoundError" || err.name === "DevicesNotFoundError") {
+                reason = "no_device";
+                msg = "Không tìm thấy thiết bị Microphone.";
+            }
+            return { success: false, reason: reason, message: msg, error: err };
         }
     }
 
@@ -430,17 +474,22 @@ class MicBlowDetector {
         }
         const lowAvg = lowFreqSum / (lowBins - 2);
 
+        // Cập nhật mức nền âm thanh động
+        this.ambient = this.ambient * 0.96 + lowAvg * 0.04;
+
         // Chuẩn hóa cường độ hơi thổi (0 đến 1)
-        const intensity = Math.min(Math.max((lowAvg - 18) / (this.threshold - 10), 0), 1);
+        const intensity = Math.min(Math.max((lowAvg - 16) / (this.threshold - 10), 0), 1);
         if (typeof this.onIntensity === "function") {
             this.onIntensity(intensity, lowAvg);
         }
 
-        // Nếu tiếng thổi liên tục đạt ngưỡng
-        if (lowAvg > this.threshold) {
+        // Phát hiện hơi thổi: hoặc vượt ngưỡng tuyệt đối, hoặc tăng đột ngột so với âm nền
+        const isBlowing = (lowAvg > this.threshold) || (lowAvg > 24 && (lowAvg - this.ambient) > 12);
+
+        if (isBlowing) {
             this.sustainedCount++;
-            // Thổi duy trì khoảng 6 frames (~120ms) -> Kích hoạt thổi tắt nến!
-            if (this.sustainedCount >= 6) {
+            // Thổi duy trì 5 frames (~100ms) -> Kích hoạt thổi tắt nến!
+            if (this.sustainedCount >= 5) {
                 this.stop();
                 if (typeof this.onBlow === "function") {
                     this.onBlow();
@@ -472,4 +521,3 @@ class MicBlowDetector {
 }
 
 window.MicBlowDetector = MicBlowDetector;
-

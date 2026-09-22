@@ -309,17 +309,24 @@ document.addEventListener("DOMContentLoaded", () => {
             if (candleBlown) return;
             if (!window.MicBlowDetector) return;
 
+            // Kiểm tra bảo mật HTTPS trước
+            if (!window.isSecureContext && location.hostname !== "localhost" && location.hostname !== "127.0.0.1") {
+                if (btnEnableMic) {
+                    btnEnableMic.innerHTML = "<span>🔒 Cần mở qua link HTTPS để dùng Mic trên điện thoại</span>";
+                    alert("⚠️ Trình duyệt trên điện thoại (Safari/Chrome) chỉ cấp quyền Micro qua liên kết bảo mật HTTPS (không hỗ trợ qua IP Wi-Fi cục bộ http://192.168...)\n\n👉 Bạn hãy dùng nút bấm dự phòng bên dưới để thổi nến, hoặc mở bằng link HTTPS nhé!");
+                }
+                return;
+            }
+
             blowDetector = new window.MicBlowDetector({
-                threshold: 35,
+                threshold: 28,
                 onIntensity: (intensity) => {
                     if (candleBlown) return;
-                    // Cập nhật thanh đo lực hơi thở theo thời gian thực
                     if (blowMeterFill) {
                         blowMeterFill.style.width = `${Math.min(100, Math.round(intensity * 100))}%`;
                     }
-                    // Ngọn lửa chập chờn rung rinh theo lực hơi thổi
                     if (candleFlame) {
-                        if (intensity > 0.2) {
+                        if (intensity > 0.15) {
                             candleFlame.style.transform = `scale(${1 - intensity * 0.35}) skewX(${intensity * 18}deg)`;
                         } else {
                             candleFlame.style.transform = "";
@@ -331,19 +338,34 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
 
-            const success = await blowDetector.start();
-            if (success) {
+            const result = await blowDetector.start();
+            if (result && result.success) {
                 if (btnEnableMic) btnEnableMic.style.display = "none";
                 if (micActiveBox) micActiveBox.style.display = "flex";
             } else {
                 if (btnEnableMic) {
-                    btnEnableMic.innerHTML = "<span>⚠️ Không thể truy cập Mic - Em bấm nút bên dưới nhé!</span>";
+                    if (result && result.reason === "insecure") {
+                        btnEnableMic.innerHTML = "<span>🔒 Cần mở qua link HTTPS để dùng Mic</span>";
+                        alert("⚠️ Safari & Chrome trên điện thoại yêu cầu đường link HTTPS bảo mật để mở Micro.\n\nBạn có thể bấm trực tiếp nút bên dưới để thổi nến nhé!");
+                    } else if (result && result.reason === "denied") {
+                        btnEnableMic.innerHTML = "<span>⚠️ Quyền Micro bị chặn - Bấm nút bên dưới nhé!</span>";
+                    } else {
+                        btnEnableMic.innerHTML = "<span>⚠️ Không mở được Mic - Bấm nút bên dưới nhé!</span>";
+                    }
                 }
             }
         };
 
         if (btnEnableMic) {
             btnEnableMic.addEventListener("click", startMicDetection);
+        }
+
+        // Cho phép chạm trực tiếp vào nến để thổi nến luôn
+        if (candleWrapper) {
+            candleWrapper.style.cursor = "pointer";
+            candleWrapper.addEventListener("click", () => {
+                if (!candleBlown) performBlow();
+            });
         }
 
         const performBlow = () => {
