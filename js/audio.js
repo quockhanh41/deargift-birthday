@@ -359,3 +359,117 @@ class RomanticAudioManager {
 }
 
 window.romanticAudio = new RomanticAudioManager();
+
+/**
+ * BỘ PHÁT HIỆN HƠI THỔI TỪ MICROPHONE (BLOW DETECTOR)
+ * Phân tích năng lượng tần số thấp của luồng gió khi người dùng thổi vào mic.
+ */
+class MicBlowDetector {
+    constructor(options = {}) {
+        this.onBlow = options.onBlow || null;
+        this.onIntensity = options.onIntensity || null; // Nhận độ mạnh hơi thở (0 đến 1)
+        this.audioCtx = null;
+        this.analyser = null;
+        this.micStream = null;
+        this.isListening = false;
+        this.animationId = null;
+        this.sustainedCount = 0;
+        this.threshold = options.threshold || 36; // Ngưỡng nhận diện tiếng thổi phùùù
+    }
+
+    async start() {
+        if (this.isListening) return true;
+        try {
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                console.warn("Trình duyệt không hỗ trợ getUserMedia.");
+                return false;
+            }
+
+            this.micStream = await navigator.mediaDevices.getUserMedia({
+                audio: {
+                    echoCancellation: false,
+                    noiseSuppression: false,
+                    autoGainControl: false
+                }
+            });
+
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            this.audioCtx = new AudioContext();
+            if (this.audioCtx.state === "suspended") {
+                await this.audioCtx.resume();
+            }
+
+            const source = this.audioCtx.createMediaStreamSource(this.micStream);
+            this.analyser = this.audioCtx.createAnalyser();
+            this.analyser.fftSize = 256;
+            this.analyser.smoothingTimeConstant = 0.2;
+            source.connect(this.analyser);
+
+            this.isListening = true;
+            this.listenLoop();
+            return true;
+        } catch (err) {
+            console.warn("Không thể mở micro:", err);
+            this.isListening = false;
+            return false;
+        }
+    }
+
+    listenLoop() {
+        if (!this.isListening || !this.analyser) return;
+
+        const bufferLength = this.analyser.frequencyBinCount;
+        const dataArray = new Uint8Array(bufferLength);
+        this.analyser.getByteFrequencyData(dataArray);
+
+        // Tính năng lượng ở dải tần gió thổi (khoảng 80Hz - 800Hz)
+        let lowFreqSum = 0;
+        const lowBins = Math.min(26, bufferLength);
+        for (let i = 2; i < lowBins; i++) {
+            lowFreqSum += dataArray[i];
+        }
+        const lowAvg = lowFreqSum / (lowBins - 2);
+
+        // Chuẩn hóa cường độ hơi thổi (0 đến 1)
+        const intensity = Math.min(Math.max((lowAvg - 18) / (this.threshold - 10), 0), 1);
+        if (typeof this.onIntensity === "function") {
+            this.onIntensity(intensity, lowAvg);
+        }
+
+        // Nếu tiếng thổi liên tục đạt ngưỡng
+        if (lowAvg > this.threshold) {
+            this.sustainedCount++;
+            // Thổi duy trì khoảng 6 frames (~120ms) -> Kích hoạt thổi tắt nến!
+            if (this.sustainedCount >= 6) {
+                this.stop();
+                if (typeof this.onBlow === "function") {
+                    this.onBlow();
+                }
+                return;
+            }
+        } else {
+            this.sustainedCount = Math.max(0, this.sustainedCount - 1);
+        }
+
+        this.animationId = requestAnimationFrame(() => this.listenLoop());
+    }
+
+    stop() {
+        this.isListening = false;
+        if (this.animationId) {
+            cancelAnimationFrame(this.animationId);
+            this.animationId = null;
+        }
+        if (this.micStream) {
+            this.micStream.getTracks().forEach(track => track.stop());
+            this.micStream = null;
+        }
+        if (this.audioCtx && this.audioCtx.state !== "closed") {
+            this.audioCtx.close().catch(() => {});
+            this.audioCtx = null;
+        }
+    }
+}
+
+window.MicBlowDetector = MicBlowDetector;
+

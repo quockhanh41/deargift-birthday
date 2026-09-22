@@ -149,12 +149,32 @@
                 </div>
 
                 <p class="cake-instruction" id="cake-instruction-text">
-                    Hãy nhắm mắt lại 3 giây, ước một điều ước thật đẹp rồi nhấn 'Thổi Nến' nha! ✨
+                    Hãy nhắm mắt ước một điều ước thật đẹp rồi thổi tắt nến em nhé! ✨
                 </p>
 
-                <button class="btn-pastel-primary pulse-glow" id="btn-blow-candle">
-                    <span id="btn-blow-candle-text">Thổi nến sinh nhật 🕯️</span>
-                </button>
+                <!-- KHU VỰC THỔI NẾN BẰNG MICROPHONE THẬT -->
+                <div class="mic-blow-zone" id="mic-blow-zone">
+                    <button class="btn-enable-mic pulse-glow" id="btn-enable-mic">
+                        <span class="mic-pulse-icon">🎙️</span>
+                        <span>Bật Micro để thổi nến thật 💨</span>
+                    </button>
+
+                    <div class="mic-active-box" id="mic-active-box" style="display: none;">
+                        <div class="mic-active-header">
+                            <span class="mic-live-indicator"></span>
+                            <span class="mic-active-text" id="mic-active-text">Đang lắng nghe... Ghé sát mic thổi "phùùù" thật mạnh nhé! 💨</span>
+                        </div>
+                        <div class="blow-meter-track" title="Thanh đo lực hơi thổi">
+                            <div class="blow-meter-fill" id="blow-meter-fill"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="candle-actions-fallback" id="candle-fallback-zone">
+                    <button class="btn-pastel-secondary" id="btn-blow-candle">
+                        <span id="btn-blow-candle-text">Hoặc bấm vào đây để thổi nến 🕯️</span>
+                    </button>
+                </div>
 
                 <!-- Thông báo sau khi nến đã tắt -->
                 <div class="wish-granted-banner" id="wish-granted-banner">
@@ -177,7 +197,7 @@
             <div class="letter-scene-container">
                 <article class="letter-paper-wrapper">
                     <div class="letter-header-decor">
-                        <div class="letter-date-stamp" id="letter-stamp-date">23.09 Special Delivery</div>
+                        <div class="letter-date-stamp" id="letter-stamp-date">24.09 Special Delivery</div>
                         <div class="letter-post-stamp">
                             <span>LOVE</span>
                             <span>POST</span>

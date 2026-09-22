@@ -180,7 +180,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const topCaptions = [
             "It's your birthday ✨",
             "My Sweet Girl 💖",
-            "Happy 23.09 🌸",
+            "Happy 24.09 🌸",
             "Love You Most ❤️"
         ];
         const bottomCaptions = [
@@ -296,10 +296,68 @@ document.addEventListener("DOMContentLoaded", () => {
             stage.addEventListener("pointercancel", stopDrag);
         }
 
-        // 5. Tương tác Thổi nến sinh nhật
+        // 5. Tương tác Thổi nến bằng Micro thật hoặc Nút bấm
+        const btnEnableMic = document.getElementById("btn-enable-mic");
+        const micActiveBox = document.getElementById("mic-active-box");
+        const blowMeterFill = document.getElementById("blow-meter-fill");
+        const micBlowZone = document.getElementById("mic-blow-zone");
+        const candleFallbackZone = document.getElementById("candle-fallback-zone");
+
+        let blowDetector = null;
+
+        const startMicDetection = async () => {
+            if (candleBlown) return;
+            if (!window.MicBlowDetector) return;
+
+            blowDetector = new window.MicBlowDetector({
+                threshold: 35,
+                onIntensity: (intensity) => {
+                    if (candleBlown) return;
+                    // Cập nhật thanh đo lực hơi thở theo thời gian thực
+                    if (blowMeterFill) {
+                        blowMeterFill.style.width = `${Math.min(100, Math.round(intensity * 100))}%`;
+                    }
+                    // Ngọn lửa chập chờn rung rinh theo lực hơi thổi
+                    if (candleFlame) {
+                        if (intensity > 0.2) {
+                            candleFlame.style.transform = `scale(${1 - intensity * 0.35}) skewX(${intensity * 18}deg)`;
+                        } else {
+                            candleFlame.style.transform = "";
+                        }
+                    }
+                },
+                onBlow: () => {
+                    performBlow();
+                }
+            });
+
+            const success = await blowDetector.start();
+            if (success) {
+                if (btnEnableMic) btnEnableMic.style.display = "none";
+                if (micActiveBox) micActiveBox.style.display = "flex";
+            } else {
+                if (btnEnableMic) {
+                    btnEnableMic.innerHTML = "<span>⚠️ Không thể truy cập Mic - Em bấm nút bên dưới nhé!</span>";
+                }
+            }
+        };
+
+        if (btnEnableMic) {
+            btnEnableMic.addEventListener("click", startMicDetection);
+        }
+
         const performBlow = () => {
             if (candleBlown) return;
             candleBlown = true;
+
+            // Dừng microphone ngay để tiết kiệm pin và bảo mật
+            if (blowDetector) {
+                blowDetector.stop();
+            }
+
+            // Ẩn vùng mic và nút thổi
+            if (micBlowZone) micBlowZone.style.display = "none";
+            if (candleFallbackZone) candleFallbackZone.style.display = "none";
 
             // Âm thanh thổi nến phùùù
             window.romanticAudio.playBlowSound();
@@ -316,9 +374,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 candleWrapper.appendChild(smoke);
             }
 
-            // Ẩn nút thổi, sau 0.6s bắn pháo hoa ăn mừng và hiện banner chúc mừng
-            if (btnBlow) btnBlow.style.display = "none";
-
+            // Sau 0.6s bắn pháo hoa ăn mừng và hiện banner chúc mừng
             setTimeout(() => {
                 window.romanticAudio.playCelebrationChime();
                 window.romanticEffects.launchFireworks(4500);
