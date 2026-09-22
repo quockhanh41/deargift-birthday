@@ -288,6 +288,25 @@
         </div>
     </div>
 
+    <!-- Modal Xem Video Kỷ Niệm (Video Player) -->
+    <div class="video-memory-modal" id="video-memory-modal" role="dialog" aria-modal="true" aria-label="Xem video kỷ niệm">
+        <div class="video-modal-backdrop" id="video-modal-backdrop"></div>
+        <div class="video-modal-container">
+            <button class="video-modal-close" id="video-modal-close" aria-label="Đóng video">✕</button>
+            <div class="video-modal-header">
+                <span class="video-modal-badge">🎬 Video Kỷ Niệm</span>
+                <h3 class="video-modal-title" id="video-modal-title">Pháo Hoa Giao Thừa 2026 🎆</h3>
+            </div>
+            <div class="video-player-wrapper">
+                <video id="memory-video-player" controls playsinline preload="metadata">
+                    <source id="memory-video-source" src="" type="video/mp4">
+                    Trình duyệt của em không hỗ trợ phát video này.
+                </video>
+            </div>
+            <p class="video-modal-caption" id="video-modal-caption">"Dưới bầu trời rực rỡ, điều ước duy nhất của anh là mãi bên em." 💖</p>
+        </div>
+    </div>
+
     <!-- Scripts -->
     <script src="js/config.js"></script>
     <script src="js/confetti.js"></script>

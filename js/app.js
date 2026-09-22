@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initPolaroidScene();
     initEndingScene();
     initLightbox();
+    initVideoModal();
 
     /**
      * Điền thông tin cá nhân hóa từ config
@@ -485,12 +486,26 @@ document.addEventListener("DOMContentLoaded", () => {
             card.className = "polaroid-card";
             card.id = `polaroid-card-${item.id}`;
 
+            const hasVideo = Boolean(item.video);
+            const videoBadgeHtml = hasVideo
+                ? `<div class="polaroid-video-badge" data-video="${item.video}" title="Bấm để xem video">
+                       <span>🎬 Video</span>
+                   </div>`
+                : "";
+
+            const videoBtnHtml = hasVideo
+                ? `<button class="btn-watch-polaroid-video" data-video="${item.video}" type="button">
+                       <span>🎬 Xem Video Kỷ Niệm 🎆</span>
+                   </button>`
+                : "";
+
             card.innerHTML = `
                 <div class="polaroid-inner">
                     <!-- Mặt trước -->
                     <div class="polaroid-front">
                         <div class="polaroid-img-wrapper">
                             <img src="${item.image}" alt="${item.title}" loading="lazy" />
+                            ${videoBadgeHtml}
                         </div>
                         <div class="polaroid-caption">
                             <div class="photo-title">${item.title}</div>
@@ -503,10 +518,22 @@ document.addEventListener("DOMContentLoaded", () => {
                         <div class="stamp-heart">💖</div>
                         <div class="secret-title">${item.title}</div>
                         <div class="secret-note">"${item.secretNote}"</div>
+                        ${videoBtnHtml}
                         <div class="flip-back-hint">Chạm để lật lại ảnh ↺</div>
                     </div>
                 </div>
             `;
+
+            // Bắt sự kiện bấm vào nút hoặc badge xem video
+            const videoTriggers = card.querySelectorAll(".polaroid-video-badge, .btn-watch-polaroid-video");
+            videoTriggers.forEach(btn => {
+                btn.addEventListener("click", (e) => {
+                    e.stopPropagation(); // Không lật thẻ khi bấm xem video
+                    if (window.openVideoModal && item.video) {
+                        window.openVideoModal(item.video, item.title, item.caption);
+                    }
+                });
+            });
 
             // Tương tác lật mặt trước / mặt sau
             card.addEventListener("click", () => {
@@ -550,6 +577,61 @@ document.addEventListener("DOMContentLoaded", () => {
     /**
      * LIGHTBOX PHÓNG TO ẢNH (MODAL)
      */
+    
+    /**
+     * MODAL XEM VIDEO KỶ NIỆM (VIDEO PLAYER)
+     */
+    function initVideoModal() {
+        const modal = document.getElementById("video-memory-modal");
+        const backdrop = document.getElementById("video-modal-backdrop");
+        const closeBtn = document.getElementById("video-modal-close");
+        const videoPlayer = document.getElementById("memory-video-player");
+        const videoSource = document.getElementById("memory-video-source");
+        const titleEl = document.getElementById("video-modal-title");
+        const captionEl = document.getElementById("video-modal-caption");
+
+        if (!modal || !videoPlayer) return;
+
+        window.openVideoModal = (videoSrc, title, caption) => {
+            if (videoSource) videoSource.src = videoSrc;
+            videoPlayer.load();
+            if (titleEl && title) titleEl.textContent = title;
+            if (captionEl && caption) captionEl.textContent = `"${caption}" 💖`;
+
+            // Tạm dừng nhạc nền để người yêu nghe rõ âm thanh trong video
+            if (window.romanticAudio && window.romanticAudio.bgmAudio) {
+                try { window.romanticAudio.bgmAudio.pause(); } catch (e) {}
+            }
+
+            modal.classList.add("active");
+            const playPromise = videoPlayer.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(err => {
+                    console.log("Video autoplay prevented:", err);
+                });
+            }
+        };
+
+        const closeVideoModal = () => {
+            modal.classList.remove("active");
+            videoPlayer.pause();
+            videoPlayer.currentTime = 0;
+
+            // Tiếp tục phát nhạc nền nếu nhạc đang trong trạng thái bật
+            if (window.romanticAudio && window.romanticAudio.isPlaying && window.romanticAudio.bgmAudio) {
+                try { window.romanticAudio.bgmAudio.play(); } catch (e) {}
+            }
+        };
+
+        if (closeBtn) closeBtn.addEventListener("click", closeVideoModal);
+        if (backdrop) backdrop.addEventListener("click", closeVideoModal);
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && modal.classList.contains("active")) {
+                closeVideoModal();
+            }
+        });
+    }
+
     function initLightbox() {
         const modal = document.getElementById("lightbox-modal");
         const modalImg = document.getElementById("lightbox-img");

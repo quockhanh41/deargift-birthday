@@ -62,6 +62,7 @@ const BIRTHDAY_CONFIG = {
         {
             id: 2,
             image: "assets/images/memories/mem2.jpeg",
+            video: "assets/videos/fireworks.mp4", // File video quay pháo hoa giao thừa
             date: "Giao Thừa 2026 🎆",
             title: "Pháo Hoa & Có Em Bên Cạnh 🎆",
             caption: "Dưới bầu trời rực rỡ, điều ước duy nhất của anh là mãi bên em.",

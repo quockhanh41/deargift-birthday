@@ -247,3 +247,196 @@
     cursor: pointer;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
+
+
+/* ===================================================
+   VIDEO KỶ NIỆM (POLAROID VIDEO BADGE & MODAL PLAYER)
+   =================================================== */
+
+/* Nút Badge trên mặt trước của ảnh Polaroid */
+.polaroid-video-badge {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    background: linear-gradient(135deg, #ff477e 0%, #ff758f 100%);
+    color: #ffffff;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    box-shadow: 0 4px 14px rgba(255, 71, 126, 0.45);
+    cursor: pointer;
+    z-index: 5;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    animation: pulseBadge 2.2s infinite ease-in-out;
+}
+
+.polaroid-video-badge:hover {
+    transform: scale(1.08);
+    box-shadow: 0 6px 18px rgba(255, 71, 126, 0.65);
+}
+
+@keyframes pulseBadge {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* Nút xem video ở mặt sau của thẻ ảnh Polaroid */
+.btn-watch-polaroid-video {
+    background: linear-gradient(135deg, #ff477e 0%, #ff758f 100%);
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-family: inherit;
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 14px;
+    box-shadow: 0 6px 18px rgba(255, 71, 126, 0.35);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.btn-watch-polaroid-video:hover {
+    transform: translateY(-2px) scale(1.04);
+    box-shadow: 0 10px 25px rgba(255, 71, 126, 0.5);
+}
+
+.btn-watch-polaroid-video:active {
+    transform: scale(0.96);
+}
+
+/* Modal Trình Phát Video Kỷ Niệm */
+.video-memory-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.35s ease, visibility 0.35s ease;
+}
+
+.video-memory-modal.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.video-modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(12, 8, 20, 0.85);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+}
+
+.video-modal-container {
+    position: relative;
+    z-index: 2;
+    width: 92%;
+    max-width: 520px;
+    background: #ffffff;
+    border-radius: 26px;
+    padding: 22px 20px 20px;
+    box-shadow: 0 25px 65px rgba(0, 0, 0, 0.45);
+    text-align: center;
+    transform: scale(0.9) translateY(20px);
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.video-memory-modal.active .video-modal-container {
+    transform: scale(1) translateY(0);
+}
+
+.video-modal-close {
+    position: absolute;
+    top: -14px;
+    right: -14px;
+    width: 38px;
+    height: 38px;
+    background: #ff477e;
+    color: #ffffff;
+    border-radius: 50%;
+    border: 3px solid #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+    transition: transform 0.2s ease, background-color 0.2s ease;
+    z-index: 10;
+}
+
+.video-modal-close:hover {
+    transform: scale(1.1) rotate(90deg);
+    background: #e63968;
+}
+
+.video-modal-header {
+    margin-bottom: 14px;
+}
+
+.video-modal-badge {
+    display: inline-block;
+    background: #fff0f3;
+    color: #ff477e;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 12px;
+    margin-bottom: 6px;
+}
+
+.video-modal-title {
+    font-family: var(--font-heading, "Playfair Display", serif);
+    font-size: 1.25rem;
+    color: #2b2b2b;
+    margin: 0;
+}
+
+.video-player-wrapper {
+    width: 100%;
+    border-radius: 18px;
+    overflow: hidden;
+    background: #0a0a0f;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-height: 56vh;
+}
+
+.video-player-wrapper video {
+    width: 100%;
+    max-height: 56vh;
+    border-radius: 18px;
+    outline: none;
+    background: #000000;
+    display: block;
+}
+
+.video-modal-caption {
+    font-size: 0.92rem;
+    color: #666666;
+    font-style: italic;
+    margin: 14px 0 0 0;
+    line-height: 1.45;
+}
