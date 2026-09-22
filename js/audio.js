@@ -393,7 +393,7 @@ class MicBlowDetector {
         this.isListening = false;
         this.animationId = null;
         this.sustainedCount = 0;
-        this.threshold = options.threshold || 50; // Ngưỡng nhận diện luồng gió thực sự mạnh (50)
+        this.threshold = options.threshold || 30; // Ngưỡng nhận diện luồng gió thực sự mạnh (50)
         this.startTime = 0;
     }
 
@@ -508,22 +508,19 @@ class MicBlowDetector {
         }
         const midAvg = midFreqSum / (midBins - 18);
 
-        // Chuẩn hóa cường độ hơi thổi (0 đến 1)
-        // Chỉ bắt đầu phản hồi khi lowAvg > 28, đạt 100% khi lowAvg >= this.threshold (50)
-        const intensity = Math.min(Math.max((lowAvg - 28) / (this.threshold - 28), 0), 1);
+        // Chuẩn hóa cường độ hơi thổi (0 đến 1) theo ngưỡng 30
+        const intensity = Math.min(Math.max((lowAvg - 16) / (this.threshold - 16), 0), 1);
         if (typeof this.onIntensity === "function") {
             this.onIntensity(intensity, lowAvg);
         }
 
-        // NHẬN DIỆN THỔI NẾN THẬT:
-        // Cử động tay/điện thoại chỉ tạo rung lắc sub-bass đơn thuần (midAvg rất thấp).
-        // Luồng gió miệng thổi trực tiếp vào mic tạo luồng khí hỗn loạn (lowAvg >= 50 VÀ midAvg >= 16).
-        const isBlowing = (lowAvg >= this.threshold) && (midAvg >= 16);
+        // Nhận diện luồng gió thổi đạt ngưỡng 30
+        const isBlowing = (lowAvg >= this.threshold) && (midAvg >= 10);
 
         if (isBlowing) {
             this.sustainedCount++;
-            // Phải thổi dứt khoát và duy trì liên tục ~280ms (17 frames) mới kích hoạt tắt nến!
-            if (this.sustainedCount >= 17) {
+            // Duy trì luồng gió thổi ~180ms (11 frames) để kích hoạt thổi tắt nến
+            if (this.sustainedCount >= 11) {
                 this.stop();
                 if (typeof this.onBlow === "function") {
                     this.onBlow();
