@@ -78,10 +78,10 @@ const BIRTHDAY_CONFIG = {
         {
             id: 4,
             image: "assets/images/memories/mem4.jpeg",
-            date: "Cùng nhau cố gắng 📚",
-            title: "Những Buổi Cùng Nhau Học Bài ✍️",
-            caption: "Ngồi bên cạnh em học bài, góc bàn quen thuộc cũng hóa thành chốn bình yên.",
-            secretNote: "Nhìn em chăm chú học bài vừa đáng yêu lại vừa thương. Chúng mình cùng cố gắng vì tương lai của hai đứa nhé, anh sẽ luôn là chỗ dựa và người đồng hành vững chắc nhất của em! 🎓❤️"
+            date: "Những chuyến đi bên nhau 🛵",
+            title: "Những Lần Mình Đi Chơi Cùng Nhau 🌿",
+            caption: "Cùng em rong ruổi khắp phố phường, mỗi góc đường đều ngập tràn tiếng cười.",
+            secretNote: "Chỉ cần là đi cùng em, được chở em phía sau hay cùng nhau la cà khắp mọi nẻo đường thì nơi đâu cũng hóa thiên đường hạnh phúc. Mong chúng mình sẽ còn cùng nhau đi thật nhiều nơi nữa nhé! Yêu em ❤️"
         }
     ],
 
