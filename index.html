@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Happy Birthday My Love | Món Quà Nhỏ Dành Tặng Em ✨</title>
+    <meta name="description" content="Website quà tặng sinh nhật lãng mạn phong cách Deargift với hộp quà bất ngờ, bánh sinh nhật thổi nến, thư tình máy gõ chữ và album ảnh kỷ niệm Polaroid.">
+    <meta name="theme-color" content="#ffccd5">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/polaroid.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎂</text></svg>">
+</head>
+<body>
+
+    <!-- Canvas hạt lấp lánh và pháo hoa (cố định toàn màn hình) -->
+    <canvas id="effects-canvas" style="position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:999;"></canvas>
+
+    <!-- Header & Step Progress Bar -->
+    <header class="top-header" role="banner">
+        <div class="brand-badge" id="brand-header">
+            <span class="heart-icon">💖</span>
+            <span id="header-recipient-name">Ngọc Ánh • Happy Birthday</span>
+        </div>
+
+        <nav class="step-indicator" aria-label="Tiến trình trải nghiệm">
+            <div class="step-dot active" id="step-dot-1" title="Hộp Quà"></div>
+            <div class="step-dot" id="step-dot-2" title="Bánh Sinh Nhật"></div>
+            <div class="step-dot" id="step-dot-3" title="Bức Thư"></div>
+            <div class="step-dot" id="step-dot-4" title="Album Kỷ Niệm"></div>
+            <div class="step-dot" id="step-dot-5" title="Lời Chúc Cuối"></div>
+        </nav>
+    </header>
+
+    <!-- Floating Romantic Music Player -->
+    <aside class="floating-music-widget" id="music-player" aria-label="Trình phát nhạc lãng mạn">
+        <div class="music-disc-wrapper" id="music-disc" title="Bật/Tắt nhạc">
+            <div class="music-disc-center"></div>
+        </div>
+        <div class="music-info">
+            <span class="music-title">Happy Birthday Lofi</span>
+            <span class="music-subtitle">Music Box Melody</span>
+        </div>
+        <button class="music-toggle-btn" id="music-toggle-btn" aria-label="Phát nhạc">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                <path d="M8 5v14l11-7z"/>
+            </svg>
+        </button>
+    </aside>
+
+    <!-- Main Experience Container -->
+    <main class="main-experience-container" role="main">
+
+        <!-- ==========================================
+             SCENE 1: HỘP QUÀ BẤT NGỜ (GIFT BOX)
+             ========================================== -->
+        <section class="experience-scene scene-fade-in active" id="scene-1" aria-labelledby="gift-title-text">
+            <div class="gift-scene-content">
+                <div class="gift-badge" id="gift-badge-text">Special Gift For You ✨</div>
+                
+                <h1 class="gift-title" id="gift-title-text">Một bất ngờ ngọt ngào dành riêng cho em...</h1>
+                <p class="gift-subtitle" id="gift-hint-text">Chạm vào hộp quà để mở điều bí mật bên trong nhé 🎁</p>
+
+                <!-- Hộp quà tương tác 3D -->
+                <div class="gift-box-container gift-wobble" id="gift-box-trigger" role="button" tabindex="0" aria-label="Nhấn để mở hộp quà sinh nhật">
+                    <!-- Nắp hộp -->
+                    <div class="gift-box-lid" id="gift-lid">
+                        <div class="gift-ribbon-v"></div>
+                        <div class="gift-bow">
+                            <div class="bow-loop-left"></div>
+                            <div class="bow-loop-right"></div>
+                            <div class="bow-center"></div>
+                        </div>
+                    </div>
+                    <!-- Thân hộp -->
+                    <div class="gift-box-body" id="gift-body">
+                        <div class="gift-ribbon-v"></div>
+                        <div class="gift-ribbon-h"></div>
+                    </div>
+                </div>
+
+                <div class="gift-tap-hint">
+                    <span>✨ Chạm vào chiếc hộp màu hồng xinh xắn ✨</span>
+                </div>
+
+                <button class="btn-pastel-primary pulse-glow" id="btn-open-gift" style="margin-top: 22px;">
+                    <span>Mở Hộp Quà Bí Mật 🎁</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             SCENE 2: BÁNH SINH NHẬT 3D XOAY 360 ĐỘ (3D ROTATING CAKE)
+             ========================================== -->
+        <section class="experience-scene scene-fade-in" id="scene-2" aria-labelledby="cake-title-text">
+            <div class="cake-scene-card cake-3d-wrapper">
+                
+                <!-- Dải cờ tiệc & Chữ 3D Happy Birthday phong cách TikTok -->
+                <div class="party-bunting-wrapper">
+                    <div class="bunting-flags">
+                        <span class="bunting-flag flag-pink"></span>
+                        <span class="bunting-flag flag-yellow"></span>
+                        <span class="bunting-flag flag-rose"></span>
+                        <span class="bunting-flag flag-cream"></span>
+                        <span class="bunting-flag flag-pink"></span>
+                        <span class="bunting-flag flag-yellow"></span>
+                        <span class="bunting-flag flag-rose"></span>
+                    </div>
+                    <div class="cake-3d-bday-title" id="cake-title-text">HAPPY BIRTHDAY!</div>
+                </div>
+
+                <p class="cake-subtitle" id="cake-sub-text">Tuổi mới luôn rạng rỡ, xinh đẹp và ngập tràn hạnh phúc em nhé!</p>
+
+                <!-- KHÔNG GIAN BÁNH KEM 3D XOAY 360 ĐỘ -->
+                <div class="cake-3d-stage" id="cake-3d-stage" title="Chạm hoặc kéo chuột để xoay bánh 360°">
+                    <div class="cake-3d-rotator" id="cake-3d-rotator">
+                        
+                        <!-- Cây nến sinh nhật đứng tại tâm đĩa trên -->
+                        <div class="candle-wrapper-3d" id="candle-trigger" title="Nhấn để thổi nến">
+                            <div class="candle-flame" id="candle-flame"></div>
+                            <div class="candle-wick"></div>
+                            <div class="candle-stick"></div>
+                        </div>
+
+                        <!-- TẦNG TRÊN (TOP TIER) -->
+                        <div class="tier-3d tier-top" id="tier-top">
+                            <!-- Nắp tròn tầng trên in ảnh chân dung người yêu -->
+                            <div class="tier-cap-top" id="cake-top-cap">
+                                <img id="cake-top-img" src="assets/images/portrait.jpeg" alt="Ảnh người yêu" />
+                            </div>
+                            <!-- Các mảnh ảnh hình trụ xoay quanh -->
+                            <div class="tier-cylinder" id="tier-top-cylinder"></div>
+                        </div>
+
+                        <!-- TẦNG DƯỚI (BOTTOM TIER) -->
+                        <div class="tier-3d tier-bottom" id="tier-bottom">
+                            <!-- Vành kem đĩa tầng dưới -->
+                            <div class="tier-cap-bottom"></div>
+                            <!-- Các mảnh ảnh hình trụ xoay quanh -->
+                            <div class="tier-cylinder" id="tier-bottom-cylinder"></div>
+                        </div>
+
+                        <!-- Bóng đổ 3D dưới đáy bánh -->
+                        <div class="cake-3d-shadow"></div>
+
+                    </div>
+                </div>
+
+                <p class="cake-instruction" id="cake-instruction-text">
+                    Hãy nhắm mắt lại 3 giây, ước một điều ước thật đẹp rồi nhấn 'Thổi Nến' nha! ✨
+                </p>
+
+                <button class="btn-pastel-primary pulse-glow" id="btn-blow-candle">
+                    <span id="btn-blow-candle-text">Thổi nến sinh nhật 🕯️</span>
+                </button>
+
+                <!-- Thông báo sau khi nến đã tắt -->
+                <div class="wish-granted-banner" id="wish-granted-banner">
+                    <div class="wish-granted-title" id="wish-title-text">🎉 Chúc Mừng Sinh Nhật Em! 🎉</div>
+                    <div class="wish-granted-sub" id="wish-sub-text">Mọi điều ước của em chắc chắn sẽ trở thành hiện thực!</div>
+                    <button class="btn-pastel-primary" id="btn-to-letter">
+                        <span id="btn-to-letter-text">Đọc bức thư anh viết gửi em 💌</span>
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                            <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             SCENE 3: BỨC THƯ TÌNH MÁY GÕ CHỮ (LOVE LETTER)
+             ========================================== -->
+        <section class="experience-scene scene-fade-in" id="scene-3" aria-labelledby="letter-salutation-text">
+            <div class="letter-scene-container">
+                <article class="letter-paper-wrapper">
+                    <div class="letter-header-decor">
+                        <div class="letter-date-stamp" id="letter-stamp-date">23.09 Special Delivery</div>
+                        <div class="letter-post-stamp">
+                            <span>LOVE</span>
+                            <span>POST</span>
+                            <span>💌</span>
+                        </div>
+                    </div>
+
+                    <h2 class="letter-salutation" id="letter-salutation-text">Gửi người con gái anh yêu thương nhất,</h2>
+
+                    <div class="letter-body" id="letter-content">
+                        <!-- Chữ được gõ tự động bởi typewriter.js -->
+                    </div>
+                    <span class="letter-cursor" id="letter-cursor"></span>
+
+                    <div class="letter-sign-off">
+                        <div class="sign-off-text" id="sign-off-text">Mãi yêu em ❤️</div>
+                        <div class="sign-off-name" id="sign-off-name">Người thương em nhất trần đời</div>
+                    </div>
+                </article>
+
+                <div class="letter-action-bar">
+                    <button class="btn-pastel-secondary" id="btn-skip-letter">
+                        <span>Hiện toàn bộ ngay ⚡</span>
+                    </button>
+                    <button class="btn-pastel-secondary" id="btn-replay-letter">
+                        <span>Đọc lại từ đầu ↺</span>
+                    </button>
+                    <button class="btn-pastel-primary" id="btn-to-polaroid" style="display: none;">
+                        <span id="btn-to-polaroid-text">Xem lại những kỷ niệm của chúng mình 📸</span>
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                            <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             SCENE 4: ALBUM KỶ NIỆM POLAROID (SCRAPBOOK)
+             ========================================== -->
+        <section class="experience-scene scene-fade-in" id="scene-4" aria-labelledby="polaroid-section-title">
+            <div class="polaroid-scene-content">
+                <div class="section-header">
+                    <h2 class="section-title" id="polaroid-section-title">Những Khoảnh Khắc Ngọt Ngào 📸</h2>
+                    <p class="section-subtitle">Chạm vào từng tấm ảnh để lật xem lời nhắn bí mật ở mặt sau nhé!</p>
+                </div>
+
+                <!-- Lưới ảnh Polaroid (được render tự động từ config.js) -->
+                <div class="polaroid-grid" id="polaroid-grid"></div>
+
+                <div class="polaroid-action-wrapper">
+                    <button class="btn-pastel-primary pulse-glow" id="btn-to-ending">
+                        <span>Món quà cuối cùng dành cho em ✨</span>
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                            <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             SCENE 5: LỜI CHÚC CUỐI (ENDING OUTRO)
+             ========================================== -->
+        <section class="experience-scene scene-fade-in" id="scene-5" aria-labelledby="ending-title-text">
+            <div class="ending-scene-card">
+                <div class="ending-heart-big">💖</div>
+                <h2 class="ending-title" id="ending-title-text">Em là món quà tuyệt vời nhất cuộc đời anh ✨</h2>
+                <p class="ending-subtitle" id="ending-subtitle-text">
+                    Cảm ơn em vì đã là một phần ấm áp nhất trong thế giới của anh. Chúc em một ngày sinh nhật thật hạnh phúc, trọn vẹn và luôn cười tươi như hoa nhé!
+                </p>
+
+                <div class="ending-button-group">
+                    <button class="btn-pastel-primary" id="btn-replay-all">
+                        <span id="btn-replay-text">Xem lại từ đầu 🔄</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal Phóng To Ảnh (Lightbox) -->
+    <div class="lightbox-modal" id="lightbox-modal" role="dialog" aria-modal="true" aria-label="Xem ảnh phóng to">
+        <div class="lightbox-content">
+            <button class="lightbox-close-btn" id="lightbox-close" aria-label="Đóng">✕</button>
+            <img id="lightbox-img" src="" alt="Ảnh kỷ niệm phóng to">
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/confetti.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/typewriter.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

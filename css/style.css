@@ -1,0 +1,1017 @@
+/* ==========================================================================
+   THIẾT KẾ CHÍNH: THEME PASTEL NGỌT NGÀO & LÃNG MẠN (DEARGIFT STYLE)
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Dancing+Script:wght@600;700&family=Outfit:wght@400;500;600;700&family=Quicksand:wght@500;600;700&display=swap');
+
+:root {
+    --primary-pink: #ff758f;
+    --deep-rose: #e63962;
+    --soft-pink: #ffb3c6;
+    --light-pink: #ffe5ec;
+    --blush-cream: #fff0f3;
+    --warm-gold: #ffbe0b;
+    --text-dark: #4a3840;
+    --text-muted: #876d77;
+    --white-glass: rgba(255, 255, 255, 0.88);
+    --border-glass: 1px solid rgba(255, 255, 255, 0.65);
+    --shadow-floating: 0 16px 36px rgba(255, 117, 143, 0.18), 0 4px 12px rgba(0, 0, 0, 0.03);
+    --shadow-glow: 0 0 25px rgba(255, 117, 143, 0.4);
+    --font-heading: 'Outfit', sans-serif;
+    --font-body: 'Quicksand', sans-serif;
+    --font-script: 'Dancing Script', cursive;
+    --font-hand: 'Caveat', cursive;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    font-family: var(--font-body);
+    background: linear-gradient(135deg, #fff0f5 0%, #ffccd5 45%, #fff0f3 100%);
+    background-attachment: fixed;
+    color: var(--text-dark);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* Canvas hiệu ứng cố định toàn màn hình, không chiếm diện tích layout */
+#effects-canvas {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    pointer-events: none !important;
+    z-index: 999 !important;
+}
+
+/* Hiệu ứng nền ánh sáng pastel */
+body::before {
+    content: "";
+    position: fixed;
+    top: -20%;
+    left: -10%;
+    width: 60vw;
+    height: 60vw;
+    background: radial-gradient(circle, rgba(255, 182, 193, 0.35) 0%, rgba(255, 255, 255, 0) 70%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    bottom: -20%;
+    right: -10%;
+    width: 65vw;
+    height: 65vw;
+    background: radial-gradient(circle, rgba(255, 209, 220, 0.4) 0%, rgba(255, 255, 255, 0) 70%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ==========================================================================
+   NAVIGATION TRÌNH TIẾN TRÌNH (STEP PROGRESS BAR)
+   ========================================================================== */
+.top-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.4);
+    border-bottom: var(--border-glass);
+}
+
+.brand-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--deep-rose);
+    letter-spacing: 0.5px;
+}
+
+.brand-badge .heart-icon {
+    animation: heartPulse 1.8s infinite ease-in-out;
+}
+
+.step-indicator {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.step-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 117, 143, 0.25);
+    transition: all 0.4s ease;
+}
+
+.step-dot.active {
+    background: var(--deep-rose);
+    transform: scale(1.3);
+    box-shadow: 0 0 10px rgba(230, 57, 98, 0.5);
+}
+
+.step-dot.completed {
+    background: var(--soft-pink);
+}
+
+/* ==========================================================================
+   WIDGET PHÁT NHẠC DU DƯƠNG (FLOATING MUSIC PLAYER)
+   ========================================================================== */
+.floating-music-widget {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 1100;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--white-glass);
+    padding: 8px 16px 8px 8px;
+    border-radius: 40px;
+    box-shadow: var(--shadow-floating);
+    border: var(--border-glass);
+    backdrop-filter: blur(12px);
+    transition: transform 0.3s ease;
+}
+
+.floating-music-widget:hover {
+    transform: translateY(-3px);
+}
+
+.music-disc-wrapper {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #2b2b2b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+}
+
+.music-disc-center {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #ff758f;
+    border: 3px solid #ffffff;
+}
+
+.music-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.music-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.music-subtitle {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+}
+
+.music-toggle-btn {
+    background: none;
+    border: none;
+    color: var(--deep-rose);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    border-radius: 50%;
+    transition: background 0.2s;
+}
+
+.music-toggle-btn:hover {
+    background: rgba(255, 117, 143, 0.15);
+}
+
+/* ==========================================================================
+   CONTAINER CỦA CÁC MÀN TRẢI NGHIỆM (SCENE WRAPPER)
+   ========================================================================== */
+.main-experience-container {
+    width: 100%;
+    min-height: 100vh;
+    padding-top: 80px;
+    padding-bottom: 90px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 10;
+}
+
+.experience-scene {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+/* Nút bấm chung kiểu Pastel Pill Button */
+.btn-pastel-primary {
+    background: linear-gradient(135deg, #ff758f 0%, #ff4d6d 100%);
+    color: #ffffff;
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    font-weight: 700;
+    padding: 14px 34px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(255, 77, 109, 0.35);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-pastel-primary:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 12px 30px rgba(255, 77, 109, 0.45);
+}
+
+.btn-pastel-primary:active {
+    transform: translateY(1px) scale(0.98);
+}
+
+.btn-pastel-secondary {
+    background: var(--white-glass);
+    color: var(--deep-rose);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 12px 26px;
+    border: 1px solid var(--soft-pink);
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-pastel-secondary:hover {
+    background: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(255, 117, 143, 0.2);
+}
+
+/* ==========================================================================
+   MÀN 1: HỘP QUÀ BẤT NGỜ (SCENE 1: GIFT BOX)
+   ========================================================================== */
+.gift-scene-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 540px;
+}
+
+.gift-badge {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--deep-rose);
+    border: var(--border-glass);
+    box-shadow: 0 4px 12px rgba(255, 117, 143, 0.15);
+    margin-bottom: 24px;
+}
+
+.gift-title {
+    font-family: var(--font-heading);
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #432832;
+    margin-bottom: 12px;
+    line-height: 1.3;
+}
+
+.gift-subtitle {
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    margin-bottom: 40px;
+}
+
+/* Khối Hộp quà 3D tinh xảo */
+.gift-box-container {
+    position: relative;
+    width: 220px;
+    height: 220px;
+    margin: 20px 0 35px 0;
+    perspective: 800px;
+}
+
+.gift-box-body {
+    position: absolute;
+    bottom: 0;
+    left: 20px;
+    width: 180px;
+    height: 150px;
+    background: linear-gradient(145deg, #ff8fa3 0%, #ff4d6d 100%);
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(255, 77, 109, 0.35);
+    overflow: hidden;
+}
+
+/* Dải ruy băng thân hộp */
+.gift-ribbon-v {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 32px;
+    height: 100%;
+    background: linear-gradient(to right, #ffd166, #ffe394, #ffd166);
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.08);
+}
+
+.gift-ribbon-h {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    width: 100%;
+    height: 32px;
+    background: linear-gradient(to bottom, #ffd166, #ffe394, #ffd166);
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.08);
+}
+
+/* Nắp hộp quà */
+.gift-box-lid {
+    position: absolute;
+    top: 55px;
+    left: 10px;
+    width: 200px;
+    height: 42px;
+    background: linear-gradient(145deg, #ffa8ba 0%, #ff6b8b 100%);
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+    z-index: 5;
+}
+
+.gift-box-lid .gift-ribbon-v {
+    width: 32px;
+}
+
+/* Chiếc nơ vàng óng ánh trên đỉnh */
+.gift-bow {
+    position: absolute;
+    top: -26px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70px;
+    height: 32px;
+}
+
+.bow-loop-left, .bow-loop-right {
+    position: absolute;
+    top: 4px;
+    width: 32px;
+    height: 24px;
+    border: 5px solid #ffd166;
+    border-radius: 50% 50% 10% 50%;
+    background: #ffe8a1;
+}
+
+.bow-loop-left {
+    left: 2px;
+    transform: rotate(-25deg);
+}
+
+.bow-loop-right {
+    right: 2px;
+    transform: rotate(25deg) scaleX(-1);
+}
+
+.bow-center {
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #ffc233;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.gift-tap-hint {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--deep-rose);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* ==========================================================================
+   MÀN 2: BÁNH SINH NHẬT & THỔI NẾN (SCENE 2: CAKE & CANDLE)
+   ========================================================================== */
+.cake-scene-card {
+    background: var(--white-glass);
+    border: var(--border-glass);
+    border-radius: 28px;
+    padding: 38px 28px;
+    box-shadow: var(--shadow-floating);
+    backdrop-filter: blur(16px);
+    width: 100%;
+    max-width: 640px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.cake-title {
+    font-family: var(--font-heading);
+    font-size: 2.1rem;
+    font-weight: 700;
+    color: var(--deep-rose);
+    margin-bottom: 8px;
+}
+
+.cake-subtitle {
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    margin-bottom: 28px;
+}
+
+/* ==========================================================================
+   BÁNH SINH NHẬT 3D XOAY 360 ĐỘ (2 TẦNG ẢNH TRỤ & CỜ TIỆC TIKTOK)
+   ========================================================================== */
+
+/* 1. Dải cờ tiệc & Chữ 3D Happy Birthday */
+.party-bunting-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.bunting-flags {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.bunting-flag {
+    width: 0;
+    height: 0;
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    border-top: 18px solid #ff758f;
+    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.1));
+}
+
+.bunting-flag.flag-pink { border-top-color: #ff758f; }
+.bunting-flag.flag-yellow { border-top-color: #ffd166; }
+.bunting-flag.flag-rose { border-top-color: #e63962; }
+.bunting-flag.flag-cream { border-top-color: #ffccd5; }
+
+.cake-3d-bday-title {
+    font-family: var(--font-heading);
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #ff477e;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-shadow: 
+        0 3px 0 #ff99b3,
+        0 6px 0 #e63962,
+        0 10px 18px rgba(230, 57, 98, 0.35);
+    transform: perspective(600px) rotateX(10deg);
+}
+
+/* 2. Không gian 3D Stage của Bánh Kem */
+.cake-3d-stage {
+    position: relative;
+    width: 320px;
+    height: 320px;
+    margin: 15px auto 10px auto;
+    perspective: 900px;
+    perspective-origin: 50% 28%;
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: pan-y;
+}
+
+.cake-3d-stage:active {
+    cursor: grabbing;
+}
+
+/* Bộ khung xoay 3D chứa cả 2 tầng và nến */
+.cake-3d-rotator {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transform: rotateX(-18deg) rotateY(0deg);
+}
+
+/* 3. Cây nến cắm thẳng đứng trên đỉnh tầng trên */
+.candle-wrapper-3d {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) translate3d(0, -112px, 0);
+    z-index: 200;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px;
+}
+
+/* Thân nến bo tròn 2 đầu, sọc chéo kẹo hồng - trắng */
+.candle-stick {
+    width: 14px;
+    height: 52px;
+    background: repeating-linear-gradient(
+        -45deg,
+        #ffffff,
+        #ffffff 7px,
+        #ff6584 7px,
+        #ff6584 14px
+    );
+    border-radius: 7px;
+    box-shadow: 0 4px 10px rgba(255, 101, 132, 0.22);
+}
+
+/* Bấc nến màu đen thò lên trên */
+.candle-wick {
+    width: 2.5px;
+    height: 9px;
+    background: #2b2b2b;
+    border-radius: 2px;
+    margin-bottom: -1px;
+}
+
+/* Ngọn lửa vàng lung linh */
+.candle-flame {
+    width: 14px;
+    height: 24px;
+    background: radial-gradient(ellipse at bottom, #ffbe0b 0%, #fb5607 70%, rgba(251, 86, 7, 0) 100%);
+    border-radius: 50% 50% 35% 35% / 80% 80% 20% 20%;
+    box-shadow: 0 0 16px #ffbe0b, 0 0 28px #fb5607;
+    margin-bottom: -2px;
+}
+
+/* 4. Các tầng bánh 3D */
+.tier-3d {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-style: preserve-3d;
+}
+
+/* TẦNG TRÊN: Bán kính 95px, Cao 64px */
+.tier-top {
+    transform: translate(-50%, -50%) translate3d(0, -42px, 0);
+}
+
+/* Nắp tròn tầng trên in ảnh chân dung người yêu */
+.tier-cap-top {
+    position: absolute;
+    width: 190px;
+    height: 190px;
+    border-radius: 50%;
+    top: -95px;
+    left: -95px;
+    transform: rotateX(90deg) translateZ(32px);
+    overflow: hidden;
+    border: 4px solid #ffffff;
+    box-shadow: 0 0 14px rgba(0, 0, 0, 0.15);
+    background: #ffffff;
+    z-index: 10;
+}
+
+.tier-cap-top img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* TẦNG DƯỚI: Bán kính 145px, Cao 72px */
+.tier-bottom {
+    transform: translate(-50%, -50%) translate3d(0, 36px, 0);
+}
+
+/* Vành đĩa trên tầng dưới */
+.tier-cap-bottom {
+    position: absolute;
+    width: 290px;
+    height: 290px;
+    border-radius: 50%;
+    top: -145px;
+    left: -145px;
+    transform: rotateX(90deg) translateZ(36px);
+    border: 5px solid #ffffff;
+    background: radial-gradient(circle, #fff0f3 50%, #ffccd5 100%);
+    box-shadow: 0 0 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Các mảnh ảnh trụ tròn (Cylinder panels) */
+.tier-cylinder {
+    position: absolute;
+    transform-style: preserve-3d;
+}
+
+.tier-panel {
+    position: absolute;
+    transform-style: preserve-3d;
+    backface-visibility: visible;
+    overflow: hidden;
+    box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.18);
+    background-size: cover;
+    background-position: center;
+}
+
+.tier-panel-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 3px 2px;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.5));
+    color: #ffffff;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+}
+
+/* Kích thước panels tầng trên (4 mảnh ghép không trùng lặp) */
+/* Kích thước panels tầng trên (8 mảnh ghép cong tròn mịn) */
+.tier-top .tier-panel {
+    width: 80px;
+    height: 64px;
+    top: -32px;
+    left: -40px;
+    border-top: 3px solid #ffffff;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.7);
+    border-radius: 2px;
+}
+
+/* Kích thước panels tầng dưới (12 mảnh ghép cong tròn mịn) */
+.tier-bottom .tier-panel {
+    width: 80px;
+    height: 72px;
+    top: -36px;
+    left: -40px;
+    border-top: 3px solid #ffffff;
+    border-bottom: 3px solid rgba(255, 255, 255, 0.6);
+    border-radius: 2px;
+}
+
+/* 5. Bóng đổ 3D dưới đáy bánh */
+.cake-3d-shadow {
+    position: absolute;
+    width: 330px;
+    height: 330px;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotateX(90deg) translateZ(-85px);
+    background: radial-gradient(ellipse, rgba(0, 0, 0, 0.25) 0%, rgba(255, 117, 143, 0.12) 40%, transparent 70%);
+    pointer-events: none;
+}
+
+.cake-instruction {
+    font-size: 1rem;
+    color: var(--text-dark);
+    margin-bottom: 24px;
+    font-weight: 600;
+}
+
+/* Thông báo điều ước đã thành hiện thực */
+.wish-granted-banner {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    animation: sceneFadeIn 0.8s ease forwards;
+}
+
+.wish-granted-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--deep-rose);
+    margin-bottom: 6px;
+}
+
+.wish-granted-sub {
+    font-size: 1rem;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+}
+
+/* ==========================================================================
+   MÀN 3: BỨC THƯ TÌNH MÁY GÕ CHỮ (SCENE 3: LOVE LETTER)
+   ========================================================================== */
+.letter-scene-container {
+    width: 100%;
+    max-width: 680px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.letter-paper-wrapper {
+    position: relative;
+    width: 100%;
+    background: #fffdf9;
+    border-radius: 20px;
+    padding: 44px 38px 36px 38px;
+    box-shadow: 0 16px 40px rgba(184, 115, 127, 0.16), 0 4px 12px rgba(0, 0, 0, 0.03);
+    border: 1px solid #fae1dd;
+    text-align: left;
+    margin-bottom: 28px;
+}
+
+/* Dấu bưu điện và tem hoa vintage */
+.letter-header-decor {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px dashed #ffd1dc;
+    padding-bottom: 18px;
+    margin-bottom: 24px;
+}
+
+.letter-date-stamp {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--deep-rose);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.letter-post-stamp {
+    width: 50px;
+    height: 56px;
+    background: #ffe5ec;
+    border: 2px dashed #ff758f;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    color: #e63962;
+    font-weight: 700;
+}
+
+.letter-salutation {
+    font-family: var(--font-script);
+    font-size: 2.1rem;
+    color: #8c2f4d;
+    font-weight: 700;
+    margin-bottom: 18px;
+}
+
+.letter-body {
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    line-height: 1.85;
+    color: #4a3840;
+    min-height: 220px;
+}
+
+.letter-para {
+    margin-bottom: 16px;
+    text-indent: 1.5em;
+}
+
+.letter-cursor {
+    display: inline-block;
+    width: 3px;
+    height: 1.1em;
+    background-color: var(--deep-rose);
+    margin-left: 3px;
+    vertical-align: middle;
+    animation: blinkCursor 0.8s infinite;
+}
+
+@keyframes blinkCursor {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+.letter-sign-off {
+    margin-top: 30px;
+    text-align: right;
+}
+
+.sign-off-text {
+    font-family: var(--font-script);
+    font-size: 1.8rem;
+    color: var(--deep-rose);
+    font-weight: 700;
+}
+
+.sign-off-name {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+
+/* Nút điều khiển thư (Tạm dừng, Xem hết, Đọc lại) */
+.letter-action-bar {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+/* ==========================================================================
+   MÀN 4: ALBUM POLAROID (SCENE 4: MEMORIES)
+   ========================================================================== */
+.polaroid-scene-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.section-header {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.section-title {
+    font-family: var(--font-heading);
+    font-size: 2.3rem;
+    font-weight: 700;
+    color: #432832;
+    margin-bottom: 8px;
+}
+
+.section-subtitle {
+    font-size: 1rem;
+    color: var(--text-muted);
+}
+
+.polaroid-action-wrapper {
+    margin-top: 36px;
+}
+
+/* ==========================================================================
+   MÀN 5: LỜI CHÚC KẾT & CẢM XÚC (SCENE 5: FINAL OUTRO)
+   ========================================================================== */
+.ending-scene-card {
+    background: var(--white-glass);
+    border: var(--border-glass);
+    border-radius: 28px;
+    padding: 46px 36px;
+    box-shadow: var(--shadow-floating);
+    backdrop-filter: blur(16px);
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.ending-heart-big {
+    font-size: 3.5rem;
+    color: var(--deep-rose);
+    margin-bottom: 18px;
+    animation: heartPulse 1.8s infinite ease-in-out;
+}
+
+.ending-title {
+    font-family: var(--font-heading);
+    font-size: 2.1rem;
+    font-weight: 700;
+    color: #432832;
+    margin-bottom: 14px;
+    line-height: 1.35;
+}
+
+.ending-subtitle {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 32px;
+}
+
+.ending-button-group {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (MOBILE & TABLET OPTIMIZED)
+   ========================================================================== */
+@media (max-width: 768px) {
+    .top-header {
+        padding: 12px 16px;
+    }
+
+    .brand-badge span {
+        display: none;
+    }
+
+    .gift-title {
+        font-size: 1.75rem;
+    }
+
+    .gift-box-container {
+        width: 180px;
+        height: 180px;
+    }
+
+    .gift-box-body {
+        width: 150px;
+        height: 125px;
+        left: 15px;
+    }
+
+    .gift-box-lid {
+        width: 170px;
+        height: 36px;
+        left: 5px;
+        top: 45px;
+    }
+
+    .cake-scene-card {
+        padding: 28px 18px;
+    }
+
+    .cake-title {
+        font-size: 1.7rem;
+    }
+
+    .letter-paper-wrapper {
+        padding: 28px 20px;
+    }
+
+    .letter-salutation {
+        font-size: 1.75rem;
+    }
+
+    .letter-body {
+        font-size: 0.98rem;
+    }
+
+    .polaroid-grid {
+        grid-template-columns: 1fr;
+        max-width: 320px;
+        gap: 28px;
+    }
+
+    .floating-music-widget {
+        bottom: 16px;
+        right: 16px;
+        padding: 6px 12px 6px 6px;
+    }
+
+    .music-title {
+        font-size: 0.75rem;
+    }
+
+    .music-subtitle {
+        display: none;
+    }
+}

@@ -1,0 +1,220 @@
+/* ==========================================================================
+   HIỆU ỨNG CHUYỂN ĐỘNG & HOẠT HỌA (KEYFRAME ANIMATIONS)
+   ========================================================================== */
+
+/* 1. Hộp quà đung đưa mời gọi */
+@keyframes giftBounce {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg) scale(1);
+    }
+    20% {
+        transform: translateY(-12px) rotate(-3deg) scale(1.02);
+    }
+    40% {
+        transform: translateY(0) rotate(3deg) scale(1);
+    }
+    60% {
+        transform: translateY(-8px) rotate(-2deg) scale(1.01);
+    }
+    80% {
+        transform: translateY(0) rotate(1deg) scale(1);
+    }
+}
+
+.gift-wobble {
+    animation: giftBounce 2.6s cubic-bezier(0.28, 0.84, 0.42, 1) infinite;
+    cursor: pointer;
+    transform-origin: bottom center;
+}
+
+/* Nắp hộp quà bật mở */
+@keyframes lidFlyOpen {
+    0% {
+        transform: translateY(0) rotate(0);
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(-80px) rotate(-18deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-160px) rotate(-35deg);
+        opacity: 0;
+    }
+}
+
+.lid-opening {
+    animation: lidFlyOpen 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* Thân hộp quà phồng nhẹ khi mở */
+@keyframes giftExpand {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.08); }
+    100% { transform: scale(0.95); opacity: 0.2; }
+}
+
+.gift-opened {
+    animation: giftExpand 0.7s ease-out forwards;
+}
+
+/* 2. Ngọn lửa nến sinh nhật */
+@keyframes flameFlicker {
+    0%, 100% {
+        transform: scale(1) rotate(-1deg);
+        box-shadow: 0 0 16px #ffbe0b, 0 0 28px #fb5607;
+    }
+    30% {
+        transform: scale(1.08, 0.95) rotate(2deg);
+        box-shadow: 0 0 20px #ffbe0b, 0 0 35px #fb5607;
+    }
+    60% {
+        transform: scale(0.95, 1.05) rotate(-2deg);
+        box-shadow: 0 0 14px #ffbe0b, 0 0 24px #fb5607;
+    }
+    80% {
+        transform: scale(1.02, 0.98) rotate(1deg);
+        box-shadow: 0 0 18px #ffbe0b, 0 0 30px #fb5607;
+    }
+}
+
+.candle-flame {
+    animation: flameFlicker 1.2s ease-in-out infinite;
+    transform-origin: bottom center;
+}
+
+/* Nến tắt & khói bốc lên */
+@keyframes candleExtinguish {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(0.4) translateY(-10px);
+        opacity: 0.6;
+    }
+    100% {
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+.flame-extinguished {
+    animation: candleExtinguish 0.4s ease-out forwards !important;
+}
+
+@keyframes smokeRise {
+    0% {
+        opacity: 0.8;
+        transform: translateY(0) scale(0.6) rotate(0);
+    }
+    50% {
+        opacity: 0.4;
+        transform: translateY(-25px) scale(1.2) rotate(15deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-50px) scale(2) rotate(-20deg);
+    }
+}
+
+.smoke-puff {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12px;
+    height: 12px;
+    background: rgba(180, 180, 180, 0.5);
+    border-radius: 50%;
+    filter: blur(4px);
+    animation: smokeRise 1.6s ease-out forwards;
+}
+
+/* 3. Bóng bay lơ lửng */
+@keyframes balloonDrift {
+    0%, 100% {
+        transform: translateY(0) rotate(-2deg);
+    }
+    50% {
+        transform: translateY(-16px) rotate(3deg);
+    }
+}
+
+.floating-balloon {
+    animation: balloonDrift 3.5s ease-in-out infinite;
+}
+
+/* 4. Đĩa nhạc vinyl quay tròn */
+@keyframes vinylSpin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.spinning {
+    animation: vinylSpin 3.5s linear infinite;
+}
+
+/* 5. Hiệu ứng xung nhịp trái tim (Heartbeat) */
+@keyframes heartPulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    14% {
+        transform: scale(1.15);
+    }
+    28% {
+        transform: scale(1);
+    }
+    42% {
+        transform: scale(1.1);
+    }
+    70% {
+        transform: scale(1);
+    }
+}
+
+.pulse-glow {
+    animation: heartPulse 2.2s ease-in-out infinite;
+}
+
+/* 6. Hiệu ứng lấp lánh (Shimmer) */
+@keyframes shimmerGlow {
+    0% {
+        filter: drop-shadow(0 0 4px rgba(255, 182, 193, 0.6));
+    }
+    50% {
+        filter: drop-shadow(0 0 16px rgba(255, 105, 180, 0.9));
+    }
+    100% {
+        filter: drop-shadow(0 0 4px rgba(255, 182, 193, 0.6));
+    }
+}
+
+.shimmer-text {
+    animation: shimmerGlow 2.5s ease-in-out infinite;
+}
+
+/* 7. Chuyển cảnh mềm mại (Scene Fade In/Out) */
+.scene-fade-in {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scene-fade-in.active {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+
+.scene-fade-in:not(.active) {
+    pointer-events: none;
+    position: absolute;
+    visibility: hidden;
+}
