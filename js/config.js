@@ -54,106 +54,34 @@ const BIRTHDAY_CONFIG = {
         {
             id: 1,
             image: "assets/images/memories/mem1.jpeg",
-            date: "Khoảnh khắc đáng nhớ",
-            title: "Nụ cười tỏa nắng ✨",
-            caption: "Nụ cười của em luôn làm cả ngày của anh bừng sáng.",
-            secretNote: "Mỗi khi nhìn thấy nụ cười này, mọi mệt mỏi trong anh đều tan biến hết! Yêu em nhiều ❤️"
+            date: "Khoảnh khắc đầu tiên ✨",
+            title: "Ngày Đầu Ta Gặp Nhau 💖",
+            caption: "Khoảnh khắc định mệnh đưa hai ta bước vào thế giới của nhau.",
+            secretNote: "Ngày hôm ấy anh vẫn nhớ như in, nụ cười bẽn lẽn của em đã khiến tim anh lỗi nhịp ngay từ ánh nhìn đầu tiên. Cảm ơn định mệnh đã mang em đến bên anh! ❤️"
         },
         {
             id: 2,
             image: "assets/images/memories/mem2.jpeg",
-            date: "Những ngày bên nhau",
-            title: "Bình yên bên em 🌸",
-            caption: "Chỉ cần ở cạnh em, mọi khoảnh khắc đều trở nên dịu dàng.",
-            secretNote: "Ở bên em, anh luôn cảm nhận được sự ấm áp và bình yên nhất trần đời."
+            date: "Giao Thừa 2026 🎆",
+            title: "Pháo Hoa & Có Em Bên Cạnh 🎆",
+            caption: "Dưới bầu trời rực rỡ, điều ước duy nhất của anh là mãi bên em.",
+            secretNote: "Khoảnh khắc pháo hoa bùng sáng đón năm mới 2026, anh chẳng nhìn lên trời mà chỉ mải ngắm nụ cười lung linh của em. Năm mới hay bao nhiêu năm nữa, chỉ cần có em bên cạnh là anh thấy trọn vẹn nhất rồi! 🥰"
         },
         {
             id: 3,
             image: "assets/images/memories/mem3.jpeg",
-            date: "Kỷ niệm ngọt ngào",
-            title: "Ánh mắt biết cười 💕",
-            caption: "Ánh mắt ấy chính là nơi anh muốn ngắm nhìn mãi mãi.",
-            secretNote: "Ánh mắt em nhìn anh luôn khiến tim anh xao xuyến như những ngày đầu tiên."
+            date: "Thường ngày bên nhau 📱",
+            title: "Những Cuộc Gọi Video Call 💬",
+            caption: "Khoảng cách địa lý chẳng là gì khi trên màn hình luôn có nụ cười của em.",
+            secretNote: "Dù ngày hôm ấy có mệt mỏi hay bận rộn đến đâu, chỉ cần bật camera lên và thấy khuôn mặt ngốc nghếch, đáng yêu của em là mọi muộn phiền tan biến hết. Yêu từng biểu cảm nhỏ nhất của em! 💕"
         },
         {
             id: 4,
-            image: "assets/images/photo-1.jpeg",
-            date: "Hẹn hò lãng mạn",
-            title: "Cùng em đi muôn nơi 🌅",
-            caption: "Nắm tay em đi qua từng góc phố thân quen.",
-            secretNote: "Chỉ cần là đi cùng em, bất cứ nơi đâu cũng hóa thành thiên đường hạnh phúc."
-        },
-        {
-            id: 5,
-            image: "assets/images/photo-2.jpeg",
-            date: "Khoảnh khắc yêu thương",
-            title: "Em là tất cả 💖",
-            caption: "Hạnh phúc đơn giản là mỗi ngày đều có em kề bên.",
-            secretNote: "Cảm ơn em vì đã đến và trở thành điều tuyệt vời nhất trong cuộc đời anh!"
-        },
-        {
-            id: 6,
-            image: "assets/images/photo-3.jpeg",
-            date: "Hạnh phúc giản đơn",
-            title: "Công chúa nhỏ của anh 👑",
-            caption: "Mãi là cô bé đáng yêu và được anh chiều chuộng nhất nhé!",
-            secretNote: "Dù em có lớn bao nhiêu, trong mắt anh em vẫn luôn là công chúa nhỏ cần được che chở."
-        },
-        {
-            id: 7,
-            image: "assets/images/photo-4.jpeg",
-            date: "Từng ngày qua",
-            title: "Ngọt ngào như kẹo 🍰",
-            caption: "Tình yêu của chúng mình ngày càng thêm đượm nồng.",
-            secretNote: "Mỗi ngày trôi qua anh lại thấy yêu em nhiều hơn ngày hôm qua một chút!"
-        },
-        {
-            id: 8,
-            image: "assets/images/photo-5.jpeg",
-            date: "Những chiều bình yên",
-            title: "Nơi ấm áp nhất ☕",
-            caption: "Những phút giây êm đềm bên ly trà và câu chuyện nhỏ.",
-            secretNote: "Bên em lúc nào cũng thật thoải mái, được là chính mình trọn vẹn nhất."
-        },
-        {
-            id: 9,
-            image: "assets/images/photo-6.jpeg",
-            date: "Chỗ dựa vững chãi",
-            title: "Luôn có anh ở đây 🛡️",
-            caption: "Anh sẽ luôn là chỗ dựa vững chãi nhất cho em.",
-            secretNote: "Bất kể ngoài kia có ra sao, quay đầu lại em sẽ luôn thấy anh đứng đợi."
-        },
-        {
-            id: 10,
-            image: "assets/images/photo-7.jpeg",
-            date: "Trân quý từng giây",
-            title: "Khoảnh khắc kỳ diệu ✨",
-            caption: "Từng nụ cười, từng ánh nhìn đều là vô giá.",
-            secretNote: "Mỗi giây phút bên em đều là một trang ký ức mà anh muốn lưu giữ suốt đời."
-        },
-        {
-            id: 11,
-            image: "assets/images/photo-8.jpeg",
-            date: "Ngày đặc biệt hôm nay",
-            title: "Happy Birthday Em Yêu! 🎂",
-            caption: "Chúc cho mọi ước mơ của em đều sẽ trở thành hiện thực.",
-            secretNote: "Anh sẽ luôn ở đây, đồng hành và cùng em biến mọi ước mơ thành sự thật! Mãi bên em ❤️"
-        },
-        {
-            id: 12,
-            image: "assets/images/photo-9.jpeg",
-            date: "Tình yêu ngọt ngào",
-            title: "Nụ cười của em 💖",
-            caption: "Nụ cười làm tan chảy trái tim anh mỗi ngày.",
-            secretNote: "Chỉ cần nhìn thấy nụ cười của em là anh có thêm triệu động lực để cố gắng mỗi ngày!"
-        },
-        {
-            id: 13,
-            image: "assets/images/photo-10.jpeg",
-            date: "Kỷ niệm khó quên",
-            title: "Mãi bên nhau nhé 💍",
-            caption: "Bên nhau trọn đời, cùng nhau già đi.",
-            secretNote: "Cảm ơn em vì đã là người yêu tuyệt vời nhất của anh. Chúc mừng sinh nhật Yến Ngân! ❤️"
+            image: "assets/images/memories/mem4.jpeg",
+            date: "Cùng nhau cố gắng 📚",
+            title: "Những Buổi Cùng Nhau Học Bài ✍️",
+            caption: "Ngồi bên cạnh em học bài, góc bàn quen thuộc cũng hóa thành chốn bình yên.",
+            secretNote: "Nhìn em chăm chú học bài vừa đáng yêu lại vừa thương. Chúng mình cùng cố gắng vì tương lai của hai đứa nhé, anh sẽ luôn là chỗ dựa và người đồng hành vững chắc nhất của em! 🎓❤️"
         }
     ],
 
