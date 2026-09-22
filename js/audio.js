@@ -8,13 +8,11 @@ class RomanticAudioManager {
         this.ctx = null;
         this.isPlaying = false;
         this.isMuted = false;
-        this.masterGain = null;
-        this.musicGain = null;
-        this.sfxGain = null;
         this.musicTimeout = null;
-        this.currentNoteIndex = 0;
+        this.noteTimeouts = []; // Danh sách các timer nốt nhạc cần dọn dẹp sạch sẽ
         this.externalAudio = null;
         this.useExternal = false;
+        this.activeSource = "none"; // "external" | "synth" | "none"
         this.musicPlayerEl = null;
         this.discEl = null;
         this.toggleBtn = null;
@@ -58,12 +56,16 @@ class RomanticAudioManager {
         const audio = new Audio();
         audio.src = "assets/audio/romantic-bgm.mp3";
         audio.loop = true;
+        audio.preload = "auto";
         audio.addEventListener("canplaythrough", () => {
             this.externalAudio = audio;
             this.useExternal = true;
         });
+        audio.addEventListener("canplay", () => {
+            this.externalAudio = audio;
+            this.useExternal = true;
+        });
         audio.addEventListener("error", () => {
-            // Không có file hoặc load lỗi -> dùng bộ tổng hợp synthesizer tự động cực kỳ êm dịu
             this.useExternal = false;
         });
     }
@@ -94,11 +96,19 @@ class RomanticAudioManager {
             `;
         }
 
+        // Luôn dọn dẹp sạch sẽ tất cả timer synthesizer cũ trước khi phát
+        this.clearAllMusicTimers();
+
+        // Ưu tiên phát file MP3 nếu có
         if (this.useExternal && this.externalAudio) {
-            this.externalAudio.play().catch(() => {
+            this.activeSource = "external";
+            this.externalAudio.play().catch(err => {
+                console.log("External audio play prevented, fallback to synth:", err);
+                this.activeSource = "synth";
                 this.playMusicBoxLoop();
             });
         } else {
+            this.activeSource = "synth";
             this.playMusicBoxLoop();
         }
     }
@@ -120,9 +130,20 @@ class RomanticAudioManager {
         if (this.externalAudio) {
             this.externalAudio.pause();
         }
+
+        // Hủy bỏ toàn bộ timer nốt nhạc ngay lập tức
+        this.clearAllMusicTimers();
+        this.activeSource = "none";
+    }
+
+    clearAllMusicTimers() {
         if (this.musicTimeout) {
             clearTimeout(this.musicTimeout);
             this.musicTimeout = null;
+        }
+        if (this.noteTimeouts && this.noteTimeouts.length > 0) {
+            this.noteTimeouts.forEach(t => clearTimeout(t));
+            this.noteTimeouts = [];
         }
     }
 
@@ -167,7 +188,10 @@ class RomanticAudioManager {
 
     // Vòng lặp giai điệu Happy Birthday và Lofi Chord ngọt ngào
     playMusicBoxLoop() {
-        if (!this.isPlaying) return;
+        if (!this.isPlaying || this.activeSource !== "synth") return;
+
+        this.clearAllMusicTimers();
+        this.noteTimeouts = [];
 
         // Tần số các nốt: C4, D4, E4, F4, G4, A4, B4, C5, D5, E5, F5...
         const N = {
@@ -183,57 +207,52 @@ class RomanticAudioManager {
             { note: N.G4, dur: 0.25, beat: 0.3 },
             { note: N.A4, dur: 0.6,  beat: 0.65, bass: N.C4 },
             { note: N.G4, dur: 0.6,  beat: 0.65 },
-            { note: N.C5, dur: 0.6,  beat: 0.65, bass: N.E4 },
-            { note: N.B4, dur: 1.0,  beat: 1.1,  bass: N.G3 },
+            { note: N.C5, dur: 0.6,  beat: 0.65, bass: N.G3 },
+            { note: N.B4, dur: 1.1,  beat: 1.2 },
 
             // Cụm 2: Happy birthday to you
             { note: N.G4, dur: 0.35, beat: 0.4 },
             { note: N.G4, dur: 0.25, beat: 0.3 },
-            { note: N.A4, dur: 0.6,  beat: 0.65, bass: N.D4 },
+            { note: N.A4, dur: 0.6,  beat: 0.65, bass: N.F3 },
             { note: N.G4, dur: 0.6,  beat: 0.65 },
-            { note: N.D5, dur: 0.6,  beat: 0.65, bass: N.F4 },
-            { note: N.C5, dur: 1.0,  beat: 1.1,  bass: N.C4 },
+            { note: N.D5, dur: 0.6,  beat: 0.65, bass: N.G3 },
+            { note: N.C5, dur: 1.1,  beat: 1.2 },
 
-            // Cụm 3: Happy birthday dear my love
+            // Cụm 3: Happy birthday to dear Yen Ngan
             { note: N.G4, dur: 0.35, beat: 0.4 },
             { note: N.G4, dur: 0.25, beat: 0.3 },
             { note: N.G5, dur: 0.6,  beat: 0.65, bass: N.C4 },
-            { note: N.E5, dur: 0.6,  beat: 0.65, bass: N.G4 },
-            { note: N.C5, dur: 0.6,  beat: 0.65, bass: N.A4 },
-            { note: N.B4, dur: 0.6,  beat: 0.65, bass: N.F4 },
-            { note: N.A4, dur: 0.9,  beat: 1.0,  bass: N.D4 },
+            { note: N.E5, dur: 0.6,  beat: 0.65 },
+            { note: N.C5, dur: 0.6,  beat: 0.65, bass: N.A3 },
+            { note: N.B4, dur: 0.6,  beat: 0.65 },
+            { note: N.A4, dur: 1.1,  beat: 1.2,  bass: N.F3 },
 
             // Cụm 4: Happy birthday to you
             { note: N.F5, dur: 0.35, beat: 0.4 },
             { note: N.F5, dur: 0.25, beat: 0.3 },
             { note: N.E5, dur: 0.6,  beat: 0.65, bass: N.C4 },
-            { note: N.C5, dur: 0.6,  beat: 0.65, bass: N.G4 },
+            { note: N.C5, dur: 0.6,  beat: 0.65 },
             { note: N.D5, dur: 0.6,  beat: 0.65, bass: N.G3 },
-            { note: N.C5, dur: 1.4,  beat: 1.6,  bass: N.C3 },
-
-            // Quãng nghỉ êm dịu rải lofi arpeggio
-            { note: N.E4, dur: 0.8, beat: 0.5, bass: N.C4 },
-            { note: N.G4, dur: 0.8, beat: 0.5 },
-            { note: N.C5, dur: 0.8, beat: 0.5 },
-            { note: N.E5, dur: 1.2, beat: 1.5 }
+            { note: N.C5, dur: 1.3,  beat: 1.5,  bass: N.C3 }
         ];
 
         let accumulatedTime = 0;
         melody.forEach(item => {
-            setTimeout(() => {
-                if (this.isPlaying) {
+            const timer = setTimeout(() => {
+                if (this.isPlaying && this.activeSource === "synth") {
                     this.playTone(item.note, item.dur);
                     if (item.bass) {
                         this.playTone(item.bass, item.dur * 1.5, "sine");
                     }
                 }
             }, accumulatedTime * 1000);
+            this.noteTimeouts.push(timer);
             accumulatedTime += item.beat;
         });
 
         // Lặp lại chu kỳ
         this.musicTimeout = setTimeout(() => {
-            if (this.isPlaying) {
+            if (this.isPlaying && this.activeSource === "synth") {
                 this.playMusicBoxLoop();
             }
         }, (accumulatedTime + 0.8) * 1000);
@@ -374,8 +393,8 @@ class MicBlowDetector {
         this.isListening = false;
         this.animationId = null;
         this.sustainedCount = 0;
-        this.threshold = options.threshold || 30; // Ngưỡng nhận diện tiếng thổi
-        this.ambient = 15; // Nền âm thanh động
+        this.threshold = options.threshold || 50; // Ngưỡng nhận diện luồng gió thực sự mạnh (50)
+        this.startTime = 0;
     }
 
     async start() {
@@ -402,7 +421,7 @@ class MicBlowDetector {
         }
 
         try {
-            // 3. Khởi tạo AudioContext NGAY TRONG LƯỢT GESTURE (quan trọng đặc biệt cho iOS Safari)
+            // 3. Khởi tạo AudioContext NGAY TRONG LƯỢT GESTURE
             const AudioContext = window.AudioContext || window.webkitAudioContext;
             if (!this.audioCtx) {
                 this.audioCtx = new AudioContext();
@@ -436,11 +455,12 @@ class MicBlowDetector {
             const source = this.audioCtx.createMediaStreamSource(this.micStream);
             this.analyser = this.audioCtx.createAnalyser();
             this.analyser.fftSize = 256;
-            this.analyser.smoothingTimeConstant = 0.2;
+            this.analyser.smoothingTimeConstant = 0.25;
             source.connect(this.analyser);
 
             this.isListening = true;
-            this.ambient = 15;
+            this.sustainedCount = 0;
+            this.startTime = Date.now(); // Ghi nhận thời gian bắt đầu
             this.listenLoop();
             return { success: true };
         } catch (err) {
@@ -466,30 +486,44 @@ class MicBlowDetector {
         const dataArray = new Uint8Array(bufferLength);
         this.analyser.getByteFrequencyData(dataArray);
 
-        // Tính năng lượng ở dải tần gió thổi (khoảng 80Hz - 800Hz)
+        // Bỏ qua 450ms đầu tiên sau khi bấm nút mở mic để tránh nhận diện cú chạm màn hình
+        if (Date.now() - this.startTime < 450) {
+            this.animationId = requestAnimationFrame(() => this.listenLoop());
+            return;
+        }
+
+        // 1. Tính năng lượng dải tần gió thổi (khoảng 80Hz - 600Hz)
         let lowFreqSum = 0;
-        const lowBins = Math.min(26, bufferLength);
+        const lowBins = Math.min(18, bufferLength);
         for (let i = 2; i < lowBins; i++) {
             lowFreqSum += dataArray[i];
         }
         const lowAvg = lowFreqSum / (lowBins - 2);
 
-        // Cập nhật mức nền âm thanh động
-        this.ambient = this.ambient * 0.96 + lowAvg * 0.04;
+        // 2. Tính năng lượng dải tần tiếng rít gió (khoảng 600Hz - 2200Hz)
+        let midFreqSum = 0;
+        const midBins = Math.min(52, bufferLength);
+        for (let i = 18; i < midBins; i++) {
+            midFreqSum += dataArray[i];
+        }
+        const midAvg = midFreqSum / (midBins - 18);
 
         // Chuẩn hóa cường độ hơi thổi (0 đến 1)
-        const intensity = Math.min(Math.max((lowAvg - 16) / (this.threshold - 10), 0), 1);
+        // Chỉ bắt đầu phản hồi khi lowAvg > 28, đạt 100% khi lowAvg >= this.threshold (50)
+        const intensity = Math.min(Math.max((lowAvg - 28) / (this.threshold - 28), 0), 1);
         if (typeof this.onIntensity === "function") {
             this.onIntensity(intensity, lowAvg);
         }
 
-        // Phát hiện hơi thổi: hoặc vượt ngưỡng tuyệt đối, hoặc tăng đột ngột so với âm nền
-        const isBlowing = (lowAvg > this.threshold) || (lowAvg > 24 && (lowAvg - this.ambient) > 12);
+        // NHẬN DIỆN THỔI NẾN THẬT:
+        // Cử động tay/điện thoại chỉ tạo rung lắc sub-bass đơn thuần (midAvg rất thấp).
+        // Luồng gió miệng thổi trực tiếp vào mic tạo luồng khí hỗn loạn (lowAvg >= 50 VÀ midAvg >= 16).
+        const isBlowing = (lowAvg >= this.threshold) && (midAvg >= 16);
 
         if (isBlowing) {
             this.sustainedCount++;
-            // Thổi duy trì 5 frames (~100ms) -> Kích hoạt thổi tắt nến!
-            if (this.sustainedCount >= 5) {
+            // Phải thổi dứt khoát và duy trì liên tục ~280ms (17 frames) mới kích hoạt tắt nến!
+            if (this.sustainedCount >= 17) {
                 this.stop();
                 if (typeof this.onBlow === "function") {
                     this.onBlow();
@@ -497,7 +531,8 @@ class MicBlowDetector {
                 return;
             }
         } else {
-            this.sustainedCount = Math.max(0, this.sustainedCount - 1);
+            // Giảm nhanh nếu luồng gió bị ngắt hoặc chỉ là tiếng va đập thoáng qua
+            this.sustainedCount = Math.max(0, this.sustainedCount - 2);
         }
 
         this.animationId = requestAnimationFrame(() => this.listenLoop());

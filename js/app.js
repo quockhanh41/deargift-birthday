@@ -325,7 +325,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             blowDetector = new window.MicBlowDetector({
-                threshold: 28,
+                threshold: 50,
                 onIntensity: (intensity) => {
                     if (candleBlown) return;
                     if (blowMeterFill) {
